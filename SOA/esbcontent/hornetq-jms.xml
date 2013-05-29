@@ -1,0 +1,20 @@
+<configuration xmlns="urn:hornetq" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hornetq /schema/hornetq-jms.xsd">
+          
+    <queue name="soa_LogInUser_Request_esb">
+		<entry name="/queue/soa_LogInUser_Request_esb"/>
+	</queue>
+
+	<queue name="soa_LogInUser_Request_esb_reply">
+		<entry name="/queue/soa_LogInUser_Request_esb_reply"/>
+	</queue>
+
+	<queue name="soa_RegisterUser_Request_esb">
+		<entry name="/queue/soa_RegisterUser_Request_esb"/>
+	</queue>
+
+	<queue name="soa_RegisterUser_Request_esb_reply">
+		<entry name="/queue/soa_RegisterUser_Request_esb_reply"/>
+	</queue>
+
+</configuration>
+

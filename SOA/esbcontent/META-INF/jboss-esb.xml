@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<jbossesb parameterReloadSecs="5"
+ xmlns="http://anonsvn.labs.jboss.com/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://anonsvn.labs.jboss.com/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd http://anonsvn.jboss.org/repos/labs/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd">
+ <providers>
+  <jms-provider connection-factory="ConnectionFactory" name="JBossMQ">
+   <jms-bus busid="SOARegisterUserChannel">
+    <jms-message-filter dest-name="queue/soa_RegisterUser_Request_esb" dest-type="QUEUE"/>
+   </jms-bus>
+   <jms-bus busid="SOALogInUserChannel">
+    <jms-message-filter dest-name="queue/soa_LogInUser_Request_esb" dest-type="QUEUE"/>
+   </jms-bus>
+  </jms-provider>
+ </providers>
+ <services>
+
+  <service category="UserServices" description="Register User Service" name="RegisterUserService">
+   <listeners>
+    <jms-listener busidref="SOARegisterUserChannel" name="SOARegisterUserListener"/>
+   </listeners>
+   <actions mep="RequestResponse">
+    <action class="actions.RegisterUserAction" name="RegisterUserAction"/>
+   </actions>
+  </service>
+  
+  <service category="UserServices" description="LogIn User Service" name="LogInUserService">
+   <listeners>
+    <jms-listener busidref="SOALogInUserChannel" name="SOALogInUserListener"/>
+   </listeners>
+   <actions mep="RequestResponse">
+    <action class="actions.LogInUserAction" name="LogInUserAction"/>
+   </actions>
+  </service>
+  
+  <service category="UserServices" description="Get User from DB Login Service" name="GetUserFromDBLoginService">
+   <listeners>
+    <jms-listener busidref="SOALogInUserChannel" name="SOALoginGetUserFromDBLoginListener"/>
+   </listeners>
+   <actions mep="RequestResponse">
+    <action class="actions.GetUserFromDBLoginAction" name="GetUserFromDBLoginAction"/>
+   </actions>
+  </service>
+
+  <service category="UserServices" description="Get User from DB Register Service" name="GetUserFromDBRegisterService">
+   <listeners>
+    <jms-listener busidref="SOARegisterUserChannel" name="SOARegisterGetUserFromDBRegisterListener"/>
+   </listeners>
+   <actions mep="RequestResponse">
+    <action class="actions.GetUserFromDBRegisterAction" name="GetUserFromDBRegisterAction"/>
+   </actions>
+  </service>
+  
+  <service category="UserServices" description="Add User to DB Service" name="AddUserToDBService">
+   <listeners>
+    <jms-listener busidref="SOARegisterUserChannel" name="SOAAddUserToDBListener"/>
+   </listeners>
+   <actions mep="RequestResponse">
+    <action class="actions.AddUserToDBAction" name="AddUserToDBAction"/>
+   </actions>
+  </service>
+  
+ </services>
+</jbossesb>

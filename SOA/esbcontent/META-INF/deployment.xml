@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jbossesb-deployment>
+
+	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_LogInUser_Request_esb_reply"</jmsQueue>
+	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_LogInUser_Request_esb"</jmsQueue>
+	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_RegisterUser_Request_esb_reply"</jmsQueue>
+	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_RegisterUser_Request_esb"</jmsQueue>
+
+</jbossesb-deployment>
