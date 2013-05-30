@@ -10,12 +10,12 @@ import org.jboss.soa.esb.message.format.MessageFactory;
 
 import util.Serializer;
 
-import model.User;
+import model.Conference;
 
-public class RegisterUserAction extends AbstractActionLifecycle {
+public class AddConferenceAction extends AbstractActionLifecycle {
     protected ConfigTree  _config;
 
-    public RegisterUserAction(ConfigTree config) {
+    public AddConferenceAction(ConfigTree config) {
         _config = config;
     }
 
@@ -23,37 +23,37 @@ public class RegisterUserAction extends AbstractActionLifecycle {
 	public Message process(Message message) throws Exception {
 
     	Object obj = message.getBody().get();
-    	User request = null;
+    	Conference request = null;
         
-        if (obj instanceof User) {
-        	request = (User) obj;
+        if (obj instanceof Conference) {
+        	request = (Conference) obj;
         } else if (obj instanceof byte[]) {
-        	request = (User)Serializer.deserialize((byte[]) obj);
+        	request = (Conference)Serializer.deserialize((byte[]) obj);
         } else if (obj instanceof Map) {
-        	Map<User, Object> rowData =(Map<User, Object>)obj;
-        	for (Map.Entry<User, Object> curr : rowData.entrySet()) {
+        	Map<Conference, Object> rowData =(Map<Conference, Object>)obj;
+        	for (Map.Entry<Conference, Object> curr : rowData.entrySet()) {
         		Object value = curr.getValue();
             	if (value instanceof String) {
-            		request = (User) value;
+            		request = (Conference) value;
             	}
   		    }
         }
         
-        System.out.println("[RegisterUserAction] Incoming user nick : " + request.getNick());
+        System.out.println("[AddConferenceAction] Incoming conference id : " + request.getId());
             
         System.setProperty("javax.xml.registry.ConnectionFactoryClass",
 				"org.apache.ws.scout.registry.ConnectionFactoryImpl");
         Message esbMessage = MessageFactory.getInstance().getMessage();
         esbMessage.getBody().add(Serializer.serialize(request));
         
-        Message response = new ServiceInvoker("UserServices",
-				"AddUserToDBService").deliverSync(esbMessage, 20000);
+        Message response = new ServiceInvoker("ConferenceServices",
+				"AddConferenceToDBService").deliverSync(esbMessage, 20000);
         
         Object resp = response.getBody().get();
         
-        User respUser = (User)Serializer.deserialize((byte[]) resp);
+        Conference respUser = (Conference)Serializer.deserialize((byte[]) resp);
               
-        System.out.println("[RegisterUserAction] Outgoing response code : " +respUser.getId());
+        System.out.println("[AddConferenceAction] Outgoing response id : " +respUser.getId());
         
         message.getBody().add(Serializer.serialize(respUser));
         

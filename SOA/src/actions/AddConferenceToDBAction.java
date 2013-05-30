@@ -1,27 +1,24 @@
 package actions;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import model.Conference;
+
 import org.hibernate.Session;
 import org.jboss.soa.esb.actions.AbstractActionLifecycle;
-import org.jboss.soa.esb.client.ServiceInvoker;
 import org.jboss.soa.esb.helpers.ConfigTree;
 import org.jboss.soa.esb.message.Message;
-import org.jboss.soa.esb.message.format.MessageFactory;
 
 import util.Serializer;
 
 import db.HibernateUtil;
 
-import model.User;
-
-public class AddUserToDBAction extends AbstractActionLifecycle {
+public class AddConferenceToDBAction extends AbstractActionLifecycle {
     protected ConfigTree  _config;
 
-    public AddUserToDBAction(ConfigTree config) {
+    public AddConferenceToDBAction(ConfigTree config) {
         _config = config;
     }
 
@@ -29,74 +26,75 @@ public class AddUserToDBAction extends AbstractActionLifecycle {
 	public Message process(Message message) throws Exception {
 
     	Object obj = message.getBody().get();
-    	User request = null;
+    	Conference request = null;
         
-        if (obj instanceof User) {
-        	request = (User) obj;
+        if (obj instanceof Conference) {
+        	request = (Conference) obj;
         } else if (obj instanceof byte[]) {
-        	request = (User)Serializer.deserialize((byte[]) obj);
+        	request = (Conference)Serializer.deserialize((byte[]) obj);
         } else if (obj instanceof Map) {
-        	Map<User, Object> rowData =(Map<User, Object>)obj;
-        	for (Map.Entry<User, Object> curr : rowData.entrySet()) {
+        	Map<Conference, Object> rowData =(Map<Conference, Object>)obj;
+        	for (Map.Entry<Conference, Object> curr : rowData.entrySet()) {
         		Object value = curr.getValue();
             	if (value instanceof String) {
-            		request = (User) value;
+            		request = (Conference) value;
             	}
   		    }
         }
         
-        System.out.println("[AddUserToDBAction] Incoming user nick : " + request.getNick());
+        System.out.println("[AddConferenceToDBAction] Incoming Conference id : " + request.getId());
         
         /*
          * Check for already taken nick
          */
-        User respUser = invokeGetUserFromDBService(request);
+        //User respUser = invokeGetUserFromDBService(request);
 
-        if(respUser.getId() == 0){
+        //if(respUser.getId() == 0){
         	/*
         	 * Not taken
         	 */
-        	addUser(request);
+        	addConference(request);
         	
         	/* 
         	 * Check for successful add and get new ID
         	 */
-        	User respUser2 = checkUserInDB(request);
+        	Conference respUser = checkConferenceInDB(request);
         	
-            if(respUser2 == null){
+            if(respUser == null){
             	/*
             	 * Unsuccessful add
             	 */
+            	respUser = request;
             	respUser.setId(-2);
-            	respUser.setIdsConferences(new ArrayList<Integer>());
+            	//respUser.setIdsConferences(new ArrayList<Integer>());
             	
             }else{
             	/*
             	 * Successful add, we have a new ID
             	 */
-            	respUser = respUser2;
+            	//respUser = respUser2;
             	/*
             	 * Get Conferences list for new User
             	 */
-            	respUser.setIdsConferences(getList(respUser));
+            	//respUser.setIdsConferences(getList(respUser));
             }
 
-        }else{ 	
+       // }else{ 	
         	/*
         	 * Taken
         	 */
-        	respUser.setId(-1);
-        	respUser.setIdsConferences(new ArrayList<Integer>());
-        }
+        //	respUser.setId(-1);
+     //   	respUser.setIdsConferences(new ArrayList<Integer>());
+     //   }
 
         message.getBody().add(Serializer.serialize(respUser));
         
-        System.out.println("[AddUserToDBAction] Outgoing response code : " +respUser.getId());
+        System.out.println("[AddConferenceToDBAction] Outgoing Conference id : " +respUser.getId());
         
         return message;
     }
     
-    private static void addUser(User u){		
+    private static void addConference(Conference u){		
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		session.save(u);
@@ -104,15 +102,15 @@ public class AddUserToDBAction extends AbstractActionLifecycle {
 	}
   
     @SuppressWarnings("rawtypes")
-   	public static User checkUserInDB(User user){
-       	User retUser = null;
+   	public static Conference checkConferenceInDB(Conference user){
+    	Conference retUser = null;
    		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
    		session.beginTransaction();  		
-   		List list = session.createSQLQuery("select * from _user;").addEntity(User.class).list();
+   		List list = session.createSQLQuery("select * from _conference;").addEntity(Conference.class).list();
    		Iterator itr = list.iterator();
    		while(itr.hasNext()){
-   			User u = (User)itr.next();
-   			if (user.getNick().trim().equals(u.getNick().trim())) {
+   			Conference u = (Conference)itr.next();
+   			if (user.getName().trim().equals(u.getName().trim())) {
    				retUser = u;
    				break;
    			}
@@ -122,6 +120,7 @@ public class AddUserToDBAction extends AbstractActionLifecycle {
    		
    	}
        
+    /*
     @SuppressWarnings("unchecked")
    	public static List<Integer> getList(User user){
    		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -151,4 +150,5 @@ public class AddUserToDBAction extends AbstractActionLifecycle {
         
         return respUser;
     }
+    */
 }

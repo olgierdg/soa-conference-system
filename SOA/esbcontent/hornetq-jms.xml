@@ -15,6 +15,24 @@
 	<queue name="soa_RegisterUser_Request_esb_reply">
 		<entry name="/queue/soa_RegisterUser_Request_esb_reply"/>
 	</queue>
+	
+	<queue name="soa_GetAllConferences_esb">
+		<entry name="/queue/soa_GetAllConferences_esb"/>
+	</queue>
+
+	<queue name="soa_GetAllConferences_esb_reply">
+		<entry name="/queue/soa_GetAllConferences_esb_reply"/>
+	</queue>
+	
+	<queue name="soa_AddConference_esb">
+		<entry name="/queue/soa_AddConference_esb"/>
+	</queue>
+
+	<queue name="soa_AddConference_esb_reply">
+		<entry name="/queue/soa_AddConference_esb_reply"/>
+	</queue>
+	
+	
 
 </configuration>
 

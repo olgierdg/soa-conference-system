@@ -28,6 +28,7 @@
 		<mapping resource="com/bookstore/bookapp.hbm.xml"/>
 		-->
 		<mapping resource="model/User.hbm.xml"/>
+		<mapping resource="model/Conference.hbm.xml"/>
 	</session-factory>
 
 </hibernate-configuration>        

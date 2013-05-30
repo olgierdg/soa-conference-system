@@ -11,7 +11,6 @@ import org.jboss.soa.esb.message.format.MessageFactory;
 
 import util.Serializer;
 
-import model.ConnectionResponse;
 import model.User;
 
 public class LogInUserAction extends AbstractActionLifecycle {
