@@ -52,11 +52,11 @@ public class RegisterUserAction extends AbstractActionLifecycle {
         
         Object resp = response.getBody().get();
         
-        ConnectionResponse connResp = (ConnectionResponse)Serializer.deserialize((byte[]) resp);
+        User respUser = (User)Serializer.deserialize((byte[]) resp);
               
-        System.out.println("[RegisterUserAction] Outgoing response code : " +connResp.getCode() + ", says : " + connResp.getMessage());
+        System.out.println("[RegisterUserAction] Outgoing response code : " +respUser.getId());
         
-        message.getBody().add(Serializer.serialize(connResp));
+        message.getBody().add(Serializer.serialize(respUser));
         
         return message;
     }

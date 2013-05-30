@@ -3,25 +3,28 @@ package rest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.core.Response;
 
 import org.jboss.soa.esb.client.ServiceInvoker;
 import org.jboss.soa.esb.message.Message;
 import org.jboss.soa.esb.message.format.MessageFactory;
 
+import com.google.gson.Gson;
+
 import util.Serializer;
 
 import model.User;
-import model.ConnectionResponse;
 
 @Path("/json/user")
 public class JSONService {
 
-
 	@POST
-	@Path("/post")
+	@Path("/login")
 	@Consumes("application/json")
-	public Response logInUser(User user) throws Exception{
+	public String logInUser(String objString) throws Exception{
+		
+		Gson gson = new Gson();
+		
+		User user = gson.fromJson(objString, model.User.class);
 		
 		System.out.println("[REST Gateway POST] LogIn User, id : " + user.getId());
 		
@@ -34,25 +37,34 @@ public class JSONService {
 		Message msg = si.deliverSync(esbMessage, 5000);
 
 		Object obj = msg.getBody().get();
-		ConnectionResponse response = null;
+		User response = null;
 		
-		if (obj instanceof ConnectionResponse) {
-			response = (ConnectionResponse) obj;
+		if (obj instanceof User) {
+			response = (User) obj;
 		} else if (obj instanceof byte[]) {
-			response = (ConnectionResponse) Serializer.deserialize((byte[]) obj);
+			response = (User) Serializer.deserialize((byte[]) obj);
 		}
 		
-		System.out.println("[REST Gateway POST] Outgoing response says : " + response.getMessage());
+		System.out.println("[REST Gateway POST] Outgoing response says : " + response.getId());
         System.out.println("-------------------------------------------");
-		
-		return Response.status(201).entity(response).build();
-		
+			
+        return gson.toJson(response);
+        
 	}
 	
 	@POST
 	@Path("/register")
 	@Consumes("application/json")
-	public Response registerUser(User user) throws Exception{
+	public String registerUser(String objString) throws Exception{
+		
+		Gson gson = new Gson();
+		
+		User user = gson.fromJson(objString, model.User.class);
+		
+		if(user.getIdsConferences() == null)
+			System.out.println("Conference list is NULL!");
+		else
+			System.out.println("Conference list is NOT NULL! HOORAY!");
 		
 		System.out.println("[REST Gateway POST] Register User, id : " + user.getId());
 		
@@ -65,17 +77,17 @@ public class JSONService {
 		Message msg = si.deliverSync(esbMessage, 5000);
 
 		Object obj = msg.getBody().get();
-		ConnectionResponse response = null;
+		User response = null;
 		
-		if (obj instanceof ConnectionResponse) {
-			response = (ConnectionResponse) obj;
+		if (obj instanceof User) {
+			response = (User) obj;
 		} else if (obj instanceof byte[]) {
-			response = (ConnectionResponse) Serializer.deserialize((byte[]) obj);
+			response = (User) Serializer.deserialize((byte[]) obj);
 		}
 		
-		System.out.println("[REST Gateway POST] Outgoing response says : " + response.getMessage());
+		System.out.println("[REST Gateway POST] Outgoing response says : " + response.getId());
         System.out.println("-------------------------------------------");
 		
-		return Response.status(201).entity(response).build();
+        return gson.toJson(response);
 	}
 }

@@ -1,9 +1,11 @@
 package actions;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.jboss.soa.esb.actions.AbstractActionLifecycle;
 import org.jboss.soa.esb.client.ServiceInvoker;
@@ -46,11 +48,6 @@ public class AddUserToDBAction extends AbstractActionLifecycle {
         }
         
         System.out.println("[AddUserToDBAction] Incoming user nick : " + request.getNick());
-
-        /*
-         * Eager initialization
-         */
-        ConnectionResponse connResp = new ConnectionResponse();
         
         /*
          * Check for already taken nick
@@ -66,36 +63,37 @@ public class AddUserToDBAction extends AbstractActionLifecycle {
         	/* 
         	 * Check for successful add and get new ID
         	 */
-            //User respUser2 = invokeGetUserFromDBService(request);
-        	//User respUser2 = invokeCheckUserInDBService(request);
         	User respUser2 = checkUserInDB(request);
         	
             if(respUser2 == null){
             	/*
             	 * Unsuccessful add
             	 */
-            	connResp.setCode(-2);
-            	connResp.setMessage("Registration unsuccessful");
+            	respUser.setId(-2);
+            	respUser.setIdsConferences(new ArrayList<Integer>());
             	
             }else{
             	/*
             	 * Successful add, we have a new ID
             	 */
-            	connResp.setCode(respUser2.getId());
-            	connResp.setMessage("Registration successful");
+            	respUser = respUser2;
+            	/*
+            	 * Get Conferences list for new User
+            	 */
+            	respUser.setIdsConferences(getList(respUser));
             }
 
         }else{ 	
         	/*
         	 * Taken
         	 */
-        	connResp.setCode(-1);
-        	connResp.setMessage("Registration unsuccessful - nick already taken");
+        	respUser.setId(-1);
+        	respUser.setIdsConferences(new ArrayList<Integer>());
         }
 
-        message.getBody().add(Serializer.serialize(connResp));
+        message.getBody().add(Serializer.serialize(respUser));
         
-        System.out.println("[AddUserToDBAction] Outgoing response code : " +connResp.getCode() + ", says : " + connResp.getMessage());
+        System.out.println("[AddUserToDBAction] Outgoing response code : " +respUser.getId());
         
         return message;
     }
@@ -106,43 +104,39 @@ public class AddUserToDBAction extends AbstractActionLifecycle {
 		session.save(u);
 		session.getTransaction().commit();
 	}
-    
-    
+  
     @SuppressWarnings("rawtypes")
-	private static User checkUserInDB(User u){
-    	User retUser = null;
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		List list = session.createSQLQuery("select * from _user;").addEntity(User.class).list();
-		Iterator itr = list.iterator();
-		while(itr.hasNext()){
-			User us = (User)itr.next();
-			if (u.getNick().trim().equals(us.getNick().trim())) {
-				retUser = u;
-				break;
-			}
-		}
-		session.getTransaction().commit();
-		return retUser;
-    }
-    
-    /*
-    private User invokeCheckUserInDBService(User u) throws Exception{
-    	System.setProperty("javax.xml.registry.ConnectionFactoryClass",
-				"org.apache.ws.scout.registry.ConnectionFactoryImpl");
-        Message esbMessage = MessageFactory.getInstance().getMessage();
-        esbMessage.getBody().add(AddUserToDBAction.serialize(u));
-        
-        Message response = new ServiceInvoker("UserServices",
-				"ChecktUserInDBService").deliverSync(esbMessage, 10000);
-        
-        Object resp = response.getBody().get();
-        
-        User respUser = (User)AddUserToDBAction.deserialize((byte[]) resp);
-        
-        return respUser;
-    }
-    */
+   	public static User checkUserInDB(User user){
+       	User retUser = null;
+   		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+   		session.beginTransaction();  		
+   		List list = session.createSQLQuery("select * from _user;").addEntity(User.class).list();
+   		Iterator itr = list.iterator();
+   		while(itr.hasNext()){
+   			User u = (User)itr.next();
+   			if (user.getNick().trim().equals(u.getNick().trim())) {
+   				retUser = u;
+   				break;
+   			}
+   		}		
+   		session.getTransaction().commit();
+   		return retUser;
+   		
+   	}
+       
+    @SuppressWarnings("unchecked")
+   	public static List<Integer> getList(User user){
+   		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+   		session.beginTransaction();
+
+   		List<Integer> list = session.createSQLQuery(
+   				"select elt from _user_idsconferences us " +
+   				"where us.idsconferences = " + user.getId() +";").list();
+
+   		session.getTransaction().commit();
+
+   		return list;
+   	}
     
     private User invokeGetUserFromDBService(User u) throws Exception{
     	System.setProperty("javax.xml.registry.ConnectionFactoryClass",

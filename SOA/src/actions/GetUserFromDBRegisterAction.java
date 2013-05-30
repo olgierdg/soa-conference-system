@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.jboss.soa.esb.actions.AbstractActionLifecycle;
 import org.jboss.soa.esb.helpers.ConfigTree;
@@ -48,6 +50,9 @@ public class GetUserFromDBRegisterAction extends AbstractActionLifecycle {
         
         if(retUser == null)
         	retUser = request;
+        else{
+        	retUser.setIdsConferences(getList(retUser));
+        }
         
         message.getBody().add(Serializer.serialize(retUser));
         System.out.println("[GetUserFromDBRegisterAction] Outgoing User id : "+retUser.getId());
@@ -60,6 +65,7 @@ public class GetUserFromDBRegisterAction extends AbstractActionLifecycle {
     	User retUser = null;
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
+
 		List list = session.createSQLQuery("select * from _user;").addEntity(User.class).list();
 		Iterator itr = list.iterator();
 		while(itr.hasNext()){
@@ -70,6 +76,21 @@ public class GetUserFromDBRegisterAction extends AbstractActionLifecycle {
 			}
 		}
 		session.getTransaction().commit();
-		return retUser;
+		return retUser;	
 	}
+    
+    @SuppressWarnings("unchecked")
+   	public static List<Integer> getList(User user){
+   		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+   		session.beginTransaction();
+
+   		List<Integer> list = session.createSQLQuery(
+   				"select elt from _user_idsconferences us " +
+   				"where us.idsconferences = " + user.getId() +";").list();
+
+   		session.getTransaction().commit();
+
+   		return list;
+   	}
+    
 }

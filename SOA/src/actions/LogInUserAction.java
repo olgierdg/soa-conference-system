@@ -1,5 +1,6 @@
 package actions;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.jboss.soa.esb.actions.AbstractActionLifecycle;
@@ -60,25 +61,20 @@ public class LogInUserAction extends AbstractActionLifecycle {
         Object resp = response.getBody().get();
         
         User respUser = (User)Serializer.deserialize((byte[]) resp);
-
-        ConnectionResponse connResp = new ConnectionResponse();
-        
+       
         if(respUser.getId() == 0){
-        	connResp.setCode(-1);
-        	connResp.setMessage("No such nick in DB");
+        	respUser.setId(-1);
+        	respUser.setIdsConferences(new ArrayList<Integer>());
         }else{
-        	if(respUser.getPassword().trim().equals(request.getPassword().trim())){
-        		connResp.setCode(respUser.getId());
-            	connResp.setMessage("Login successful");
-        	}else{
-        		connResp.setCode(-2);
-            	connResp.setMessage("Wrong password");
+        	if(!respUser.getPassword().trim().equals(request.getPassword().trim())){
+        		respUser.setId(-2);
+        		respUser.setIdsConferences(new ArrayList<Integer>());
         	}
         }
         
-        System.out.println("[LogInUserAction] Outgoing response code : " +connResp.getCode() + ", says : " + connResp.getMessage());
+        System.out.println("[LogInUserAction] Outgoing response code : " +respUser.getId());
         
-        message.getBody().add(Serializer.serialize(connResp));
+        message.getBody().add(Serializer.serialize(respUser));
         
         return message;   
     }
