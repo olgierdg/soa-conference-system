@@ -30,11 +30,11 @@ public class ParcellableConference implements Parcelable {
 	}
 
 	public ParcellableConference(Parcel in) throws ParseException {
+		this.conference = new model.Conference();
 		conference.setId(in.readInt());
 		conference.setName(in.readString());
 		conference.setCity(in.readString());
-		conference.setDate(new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH)
-				.parse(in.readString()));
+		conference.setDate(in.readString());
 		conference.setDescription(in.readString());
 		conference.setSpeaker(in.readString());
 		conference.setBio(in.readString());
@@ -65,12 +65,10 @@ public class ParcellableConference implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel arg0, int arg1) {
-		// TODO Auto-generated method stub
 		arg0.writeInt(conference.getId());
 		arg0.writeString(conference.getName());
 		arg0.writeString(conference.getCity());
-		arg0.writeString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-				.format(conference.getDate()));
+		arg0.writeString(conference.getDate());
 		arg0.writeString(conference.getDescription());
 		arg0.writeString(conference.getSpeaker());
 		arg0.writeString(conference.getBio());

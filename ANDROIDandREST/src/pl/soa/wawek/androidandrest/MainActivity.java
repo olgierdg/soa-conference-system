@@ -5,6 +5,7 @@ import pl.soa.wawek.androidandrest.R;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,7 +30,8 @@ public class MainActivity extends Activity {
 		ArrayList<model.ParcellableConference> pConfArray = extras.getParcelableArrayList("conferences");
 		ArrayList<model.Conference> confArray = new ArrayList<model.Conference>();
 		for(int i = 0; i < pConfArray.size(); i++){
-			confArray.add(pConfArray.get(i).getConference());
+			model.Conference c = pConfArray.get(i).getConference();
+			confArray.add(c);
 		}
 		for(int i = 0; i < confArray.size(); i++){
 		try {
@@ -89,9 +91,10 @@ public class MainActivity extends Activity {
 			t.show();
 			return true;
 		case R.id.menu_favourite:
-			Intent i = new Intent(MainActivity.this, Favourites.class);
+			//Intent i = new Intent(MainActivity.this, Favourites.class);
 			//tu bedzie wolanie post servicem listy ulubionych
-			startActivity(i);
+			
+			//startActivity(i);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

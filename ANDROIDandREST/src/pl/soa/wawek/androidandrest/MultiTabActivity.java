@@ -30,7 +30,7 @@ public class MultiTabActivity extends TabActivity{
 	private TabSpec spec3;
 	private TabSpec spec4;
 	
-	Conference conf; //moze trzeba bedzie zmienic na model.Conference
+	model.Conference conf; //moze trzeba bedzie zmienic na model.Conference
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -91,11 +91,11 @@ public class MultiTabActivity extends TabActivity{
 	
 	public void getExtrasAboutConference() throws ParseException{
 		Bundle extras = getIntent().getExtras();
-		conf = new Conference();
+		conf = new model.Conference();
 		conf.setId(extras.getInt("id"));
 		conf.setName(extras.getString("name"));
 		conf.setCity(extras.getString("city"));
-		conf.setDate(new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH).parse(extras.getString("date")));
+		conf.setDate(extras.getString("date"));
 		conf.setDescription(extras.getString("description"));
 		conf.setSpeaker(extras.getString("speaker"));
 		conf.setBio(extras.getString("bio"));

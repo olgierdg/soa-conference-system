@@ -113,15 +113,6 @@ public class PostRest extends IntentService {
 								Toast.LENGTH_LONG).show();
 					}
 				});
-			}else{
-				h.post(new Runnable() {
-					@Override
-					public void run() {
-						Toast.makeText(getBaseContext(),
-								"Logowanie poprawne to sie usunie potem",
-								Toast.LENGTH_LONG).show();
-					}
-				});
 			}
 		} else if (urlclass.contains("register")) {
 			if (user.getId() < 0) {
@@ -131,15 +122,6 @@ public class PostRest extends IntentService {
 						Toast.makeText(getBaseContext(),
 								"Login zajêty", Toast.LENGTH_LONG)
 								.show();
-					}
-				});
-			}else{
-				h.post(new Runnable() {
-					@Override
-					public void run() {
-						Toast.makeText(getBaseContext(),
-								"Rejestracja zakoñczona powodzeniem",
-								Toast.LENGTH_LONG).show();
 					}
 				});
 			}

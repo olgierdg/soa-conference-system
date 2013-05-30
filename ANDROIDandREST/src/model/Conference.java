@@ -10,7 +10,7 @@ public class Conference implements Serializable {
 	private int id;
 	private String name;
 	private String city;
-	private Date date;
+	private String date;
 	private String description;
 	private String speaker;
 	private String bio;
@@ -21,7 +21,7 @@ public class Conference implements Serializable {
 		id = 0;
 		name = new String();
 		city = new String();
-		date = new Date();
+		date = new String();
 		description = new String();
 		speaker = new String();
 		bio = new String();
@@ -31,7 +31,7 @@ public class Conference implements Serializable {
 
 	
 	
-	public Conference(int id, String name, String city, Date date,
+	public Conference(int id, String name, String city, String date,
 			String description, String speaker, String bio, double lat,
 			double lon) {
 		this.id = id;
@@ -69,11 +69,11 @@ public class Conference implements Serializable {
 		this.city = city;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
@@ -118,7 +118,7 @@ public class Conference implements Serializable {
 	}
 
 	public String toString() {
-		return id + " " + name + " " + city + " " + date.toString() + " "
+		return id + " " + name + " " + city + " " + date + " "
 				+ description + " " + speaker + " " + bio + " " + lat + " "
 				+ lon;
 	}

@@ -1,9 +1,7 @@
 package pl.soa.wawek.androidandrest;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-@SuppressLint("SimpleDateFormat")
 public class MyArrayAdapter extends ArrayAdapter<model.Conference>{
 
 	Context context;
@@ -38,7 +35,13 @@ public class MyArrayAdapter extends ArrayAdapter<model.Conference>{
 			ConferenceWrapper = new ConferenceWrapper();
 			ConferenceWrapper.name = (TextView) item.findViewById(R.id.tvName);
 			ConferenceWrapper.date = (TextView) item.findViewById(R.id.tvDate);
-			ConferenceWrapper.place = (TextView) item.findViewById(R.id.tvPlace);
+			ConferenceWrapper.city = (TextView) item.findViewById(R.id.tvPlace);
+			ConferenceWrapper.id = (TextView) item.findViewById(R.id.tvi);
+			ConferenceWrapper.description = (TextView) item.findViewById(R.id.tvd);
+			ConferenceWrapper.speaker = (TextView) item.findViewById(R.id.tvs);
+			ConferenceWrapper.bio = (TextView) item.findViewById(R.id.tvb);
+			ConferenceWrapper.lat = (TextView) item.findViewById(R.id.tvla);
+			ConferenceWrapper.lon = (TextView) item.findViewById(R.id.tvlo);
 			item.setTag(ConferenceWrapper);
 		} else {
 			ConferenceWrapper = (ConferenceWrapper) item.getTag();
@@ -46,10 +49,14 @@ public class MyArrayAdapter extends ArrayAdapter<model.Conference>{
 
 		model.Conference conference = conferences.get(position);
 		ConferenceWrapper.name.setText(conference.getName());
-		ConferenceWrapper.date.setText(new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(conference.getDate()));
-		ConferenceWrapper.place.setText(conference.getCity());
-
-
+		ConferenceWrapper.date.setText(conference.getDate());
+		ConferenceWrapper.city.setText(conference.getCity());
+		ConferenceWrapper.id.setText(Integer.toString(conference.getId()));
+		ConferenceWrapper.description.setText(conference.getDescription());
+		ConferenceWrapper.speaker.setText(conference.getSpeaker());
+		ConferenceWrapper.bio.setText(conference.getBio());
+		ConferenceWrapper.lat.setText(Double.toString(conference.getLat()));
+		ConferenceWrapper.lon.setText(Double.toString(conference.getLon()));
 		return item;
 
 	}
@@ -57,7 +64,13 @@ public class MyArrayAdapter extends ArrayAdapter<model.Conference>{
 	static class ConferenceWrapper {
 		TextView name;
 		TextView date;
-		TextView place;
+		TextView city;
+		TextView id;
+		TextView description;
+		TextView speaker;
+		TextView bio;
+		TextView lat;
+		TextView lon;
 	}
 
 }

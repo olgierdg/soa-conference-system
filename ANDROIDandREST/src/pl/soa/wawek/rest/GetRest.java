@@ -6,7 +6,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+
+import model.ParcellableConference;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -16,12 +19,17 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.ResultReceiver;
+import android.renderscript.Type;
+import android.util.Log;
 import android.widget.Toast;
 
 public class GetRest extends IntentService {
@@ -30,8 +38,7 @@ public class GetRest extends IntentService {
 	private HttpGet httpGet;
 	private HttpResponse response;
 	private HttpEntity entity;
-	private String URL = "http://89.66.134.91:8080/RESTGateway/json/";
-	private JSONObject json;
+	private String URL = "http://89.66.134.91:8080/RESTGateway/json/conference/getall";
 	private Handler h;
 
 	private ArrayList<model.ParcellableConference> conferences;
@@ -60,7 +67,7 @@ public class GetRest extends IntentService {
 		String urlclass = extras.getString("class");
 		String result = null;
 		httpClient = new DefaultHttpClient();
-		httpGet = new HttpGet(URL + urlclass + "/get");
+		httpGet = new HttpGet(URL);
 		httpGet.addHeader("accept", "application/json");
 		try {
 			InputStream instream = null;
@@ -68,13 +75,15 @@ public class GetRest extends IntentService {
 			entity = response.getEntity();
 			instream = entity.getContent();
 			result = convertStreamToString(instream);
-			json = new JSONObject(result);
 			instream.close();
 		} catch (Exception e) {
 			e.getStackTrace();
 		}
-
-		try {
+		Gson gson = new Gson();
+		java.lang.reflect.Type listType = new TypeToken<List<model.Conference>>(){}.getType();
+		List<model.Conference> listConferences  = gson.fromJson(result, listType);
+		
+		/*try {
 			JSONArray array = json.getJSONArray("conferences");
 			for (int i = 0; i < array.length(); i++) {
 				JSONObject object = array.getJSONObject(i);
@@ -84,8 +93,7 @@ public class GetRest extends IntentService {
 				conference.setCity(object.getString("city"));
 				conference.setDescription(object.getString("description"));
 				conference.setSpeaker(object.getString("speaker"));
-				conference.setDate(new SimpleDateFormat("MMMM d, yyyy",
-						Locale.ENGLISH).parse(object.getString("date")));
+				conference.setDate(object.getString("date"));
 				conference.setBio(object.getString("bio"));
 				conference.setLat(object.getDouble("lat"));
 				conference.setLon(object.getDouble("lon"));
@@ -93,12 +101,16 @@ public class GetRest extends IntentService {
 				model.ParcellableConference pConf = new model.ParcellableConference(conference);
 				conferences.add(pConf);
 			}
-			b.putParcelableArrayList("conferences", conferences);
-			rec.send(1, b);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}*/
+		ArrayList<model.ParcellableConference> pConf = new ArrayList<model.ParcellableConference>();
+		for(int i = 0; i < listConferences.size(); i++){
+			model.ParcellableConference pc = new model.ParcellableConference(listConferences.get(i));
+			pConf.add(pc);
 		}
-
+		b.putParcelableArrayList("conferences", pConf);
+		rec.send(1, b);
 		/*h.post(new Runnable() {
 			@Override
 			public void run() {

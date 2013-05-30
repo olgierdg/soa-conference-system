@@ -47,7 +47,7 @@ public class LoginPanel extends Activity implements Receiver {
 		setContentView(R.layout.login_panel);
 		mReceiver = new MyReceiver(new Handler());
 		mReceiver.setReceiver(this);
-
+		conf = new ArrayList<model.ParcellableConference>();
 		header = (TextView) findViewById(R.id.tvUser);
 		etUserLogin = (EditText) findViewById(R.id.etUserLogin);
 		etPasswordLogin = (EditText) findViewById(R.id.etPasswordLogin);
@@ -137,18 +137,17 @@ public class LoginPanel extends Activity implements Receiver {
 			user.setNick(pUser.getUser().getNick());
 			user.setPassword(pUser.getUser().getPassword());
 			user.setIdsConferences(pUser.getUser().getIdsConferences());
-			//if (user.getId() > 0) {
-			//	Intent getService = new Intent(LoginPanel.this, GetRest.class);
-			//	getService.putExtra("class", "conference");
-			//	getService.putExtra("GetReceiver", mReceiver);
-			//	startService(getService);
-			//}
+			if (user.getId() > 0) {
+				Intent getService = new Intent(LoginPanel.this, GetRest.class);
+				getService.putExtra("GetReceiver", mReceiver);
+				startService(getService);
+			}
 		}
-		//if(resultCode == 1){
-		//	conf = resultData.getParcelableArrayList("conferences");
-		//	Intent i = new Intent(LoginPanel.this, MainActivity.class);
-		//	i.putParcelableArrayListExtra("conferences", conf);
-		//	startActivity(i);
-		//}
+		if(resultCode == 1){
+			conf = resultData.getParcelableArrayList("conferences");
+			Intent i = new Intent(LoginPanel.this, MainActivity.class);
+			i.putParcelableArrayListExtra("conferences", conf);
+			startActivity(i);
+		}
 	}
 }

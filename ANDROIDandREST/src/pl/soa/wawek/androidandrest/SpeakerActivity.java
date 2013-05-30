@@ -20,6 +20,6 @@ public class SpeakerActivity extends Activity{
 		bio.setMovementMethod(new ScrollingMovementMethod());
 		Bundle extras = getIntent().getExtras();
 		name.setText(extras.getString("speaker"));
-		name.setText(extras.getString("bio"));
+		bio.setText(extras.getString("bio"));
 	}
 }

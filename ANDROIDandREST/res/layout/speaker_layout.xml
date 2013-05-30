@@ -19,6 +19,7 @@
 
         <TextView
             android:id="@+id/tvBio"
+            android:textSize="15sp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvName"
