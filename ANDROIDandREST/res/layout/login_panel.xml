@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black" >
+    
+    <TextView
+        android:id="@+id/tvUser"
+        android:text="@string/panel_logowania"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
+        android:textIsSelectable="false"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+    </TextView>
+    <EditText
+        android:id="@+id/etUserLogin"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="20dp"
+        android:hint="@string/user"
+        android:layout_below="@id/tvUser"
+        android:layout_alignParentLeft="true"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content">
+    </EditText>
+    <EditText
+        android:id="@+id/etPasswordLogin"
+        android:textColor="#FFFFFF"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:layout_below="@id/etUserLogin"
+        android:layout_alignParentLeft="true"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content">
+    </EditText>
+    <Button
+        android:id="@+id/bLogin"
+        android:textColor="#FFFFFF"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="38dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/tvUser">
+    </Button>
+    
+    <EditText
+        android:id="@+id/etUserRegister"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="180dp"
+        android:hint="@string/user"
+        android:layout_alignParentLeft="true"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content">
+    </EditText>
+    <EditText
+        android:id="@+id/etPasswordRegister"
+        android:textColor="#FFFFFF"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:layout_below="@id/etUserRegister"
+        android:layout_alignParentLeft="true"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content">
+    </EditText>
+    <Button
+        android:id="@+id/bRegister"
+        android:textColor="#FFFFFF"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/bLogin">
+    </Button>
+    
+
+</RelativeLayout>
