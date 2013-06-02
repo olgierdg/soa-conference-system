@@ -6,7 +6,7 @@
   <jms-provider connection-factory="ConnectionFactory" name="JBossMQ">
   
    <jms-bus busid="SOARegisterUserChannel">
-    <jms-message-filter dest-name="queue/soa_RegisterUser_Request_esb" dest-type="QUEUE"/>
+    <jms-message-filter dest-name="queue/soa_RegisterUser_Request_esb1" dest-type="QUEUE"/>
    </jms-bus>
    
    <jms-bus busid="SOALogInUserChannel">
@@ -17,8 +17,16 @@
     <jms-message-filter dest-name="queue/soa_AddConference_esb" dest-type="QUEUE"/>
    </jms-bus>
    
+   <jms-bus busid="SOAAddConferenceToUserFavsChannel">
+    <jms-message-filter dest-name="queue/soa_AddConferenceToUserFavs_esb" dest-type="QUEUE"/>
+   </jms-bus>
+   
    <jms-bus busid="SOAGetAllConferencesChannel">
     <jms-message-filter dest-name="queue/soa_GetAllConferences_esb" dest-type="QUEUE"/>
+   </jms-bus>
+    
+   <jms-bus busid="SOAGetUserFavsChannel">
+    <jms-message-filter dest-name="queue/soa_GetUserFavs_esb" dest-type="QUEUE"/>
    </jms-bus>
    
   </jms-provider>
@@ -71,7 +79,7 @@
    </actions>
   </service>
   
-  <service category="ConferenceServices" description="Add Conference" name="AddConferenceService">
+  <service category="ConferenceServices" description="Add Conference Service" name="AddConferenceService">
    <listeners>
     <jms-listener busidref="SOAAddConferenceChannel" name="SOAAddConferenceListener"/>
    </listeners>
@@ -89,7 +97,25 @@
    </actions>
   </service>
   
-  <service category="ConferenceServices" description="Get All Conferences" name="GetAllConferencesService">
+  <service category="ConferenceServices" description="Add Conference to User Favs Service" name="AddConferenceToUserFavsService">
+   <listeners>
+    <jms-listener busidref="SOAAddConferenceToUserFavsChannel" name="SOAAddConferenceToUserFavsListener"/>
+   </listeners>
+   <actions mep="RequestResponse">
+    <action class="actions.AddConferenceToUserFavsAction" name="AddConferenceToUserFavsAction"/>
+   </actions>
+  </service>
+  
+  <service category="ConferenceServices" description="Add Conference To User Favs To DB Service" name="AddConferenceToUserFavsToDBService">
+   <listeners>
+    <jms-listener busidref="SOAAddConferenceToUserFavsChannel" name="SOAAddConferenceToUserFavsToDBListener"/>
+   </listeners>
+   <actions mep="RequestResponse">
+    <action class="actions.AddConferenceToUserFavsToDBAction" name="AddConferenceToUserFavsToDBAction"/>
+   </actions>
+  </service>
+  
+  <service category="ConferenceServices" description="Get All Conferences Service" name="GetAllConferencesService">
    <listeners>
     <jms-listener busidref="SOAGetAllConferencesChannel" name="SOAGetAllConferencesListener"/>
    </listeners>
@@ -104,6 +130,24 @@
    </listeners>
    <actions mep="RequestResponse">
     <action class="actions.GetAllConferencesFromDBAction" name="GetAllConferencesFromDBAction"/>
+   </actions>
+  </service>
+  
+  <service category="ConferenceServices" description="Get User Favs Service" name="GetUserFavsService">
+   <listeners>
+    <jms-listener busidref="SOAGetUserFavsChannel" name="SOAGetUserFavsListener"/>
+   </listeners>
+   <actions mep="RequestResponse">
+    <action class="actions.GetUserFavsAction" name="GetUserFavsAction"/>
+   </actions>
+  </service>
+  
+  <service category="ConferenceServices" description="GetUserFavs from DB Service" name="GetUserFavsFromDBService">
+   <listeners>
+    <jms-listener busidref="SOAGetUserFavsChannel" name="GetUserFavsFromDBListener"/>
+   </listeners>
+   <actions mep="RequestResponse">
+    <action class="actions.GetUserFavsFromDBAction" name="GetUserFavsFromDBAction"/>
    </actions>
   </service>
   

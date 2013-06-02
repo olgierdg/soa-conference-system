@@ -11,36 +11,39 @@ import org.jboss.soa.esb.message.format.MessageFactory;
 import util.Serializer;
 
 import model.Conference;
+import model.User;
 
-public class GetAllConferencesAction extends AbstractActionLifecycle {
+public class GetUserFavsAction extends AbstractActionLifecycle {
     protected ConfigTree  _config;
 
-    public GetAllConferencesAction(ConfigTree config) {
+    public GetUserFavsAction(ConfigTree config) {
         _config = config;
     }
 
     @SuppressWarnings("unchecked")
 	public Message process(Message message) throws Exception {
 
-        System.out.println("[GetAllConferencesAction] Get all conferences request");
+    	Object obj = message.getBody().get();
+    	
+    	User request = Serializer.deserializeUser(obj);
+        
+        System.out.println("[GetUserFavsAction] Incoming user nick : " + request.getNick());
         
         System.setProperty("javax.xml.registry.ConnectionFactoryClass",
 				"org.apache.ws.scout.registry.ConnectionFactoryImpl");
         Message esbMessage = MessageFactory.getInstance().getMessage();
+        esbMessage.getBody().add(Serializer.serialize(request));
               
-        /*
-         * Get all Conferences from DB
-         */
         Message response = new ServiceInvoker("ConferenceServices",
-				"GetAllConferencesFromDBService").deliverSync(esbMessage, 5000);
+				"GetUserFavsFromDBService").deliverSync(esbMessage, 5000);
         
         Object resp = response.getBody().get();
         
-        List<Conference> respUser = (List<Conference>)Serializer.deserialize((byte[]) resp);
+        List<Conference> respList = (List<Conference>)Serializer.deserialize((byte[]) resp);
         
-        System.out.println("[GetAllConferencesAction] Get all conferences response");
+        System.out.println("[GetUserFavsAction] Get UserFavourite conferences response");
         
-        message.getBody().add(Serializer.serialize(respUser));
+        message.getBody().add(Serializer.serialize(respList));
         
         return message;   
     }

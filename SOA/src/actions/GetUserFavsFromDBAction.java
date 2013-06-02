@@ -1,5 +1,7 @@
 package actions;
 
+import java.util.List;
+
 import org.jboss.soa.esb.actions.AbstractActionLifecycle;
 import org.jboss.soa.esb.helpers.ConfigTree;
 import org.jboss.soa.esb.message.Message;
@@ -8,12 +10,13 @@ import util.Serializer;
 
 import db.DBUtil;
 
+import model.Conference;
 import model.User;
 
-public class GetUserFromDBLoginAction extends AbstractActionLifecycle {
+public class GetUserFavsFromDBAction extends AbstractActionLifecycle {
     protected ConfigTree  _config;
 
-    public GetUserFromDBLoginAction(ConfigTree config) {
+    public GetUserFavsFromDBAction(ConfigTree config) {
         _config = config;
     }
 
@@ -22,20 +25,19 @@ public class GetUserFromDBLoginAction extends AbstractActionLifecycle {
     	Object obj = message.getBody().get();
     	User request = Serializer.deserializeUser(obj);
     	
-        System.out.println("[GetUserFromDBLoginAction] Incoming user nick : " + request.getNick());
+        System.out.println("[GetUserFavsFromDBAction] Incoming user nick : " + request.getNick());
            
         User retUser = DBUtil.getUser(request.getNick());
         
-        if(retUser == null)
-        	retUser = request;
-        else{
-        	retUser.setIdsConferences(DBUtil.getFavsIdsList(retUser.getId()));
+        List<Conference> retList = null;
+        
+        if(retUser != null){       
+        	retList = DBUtil.getFavsList(retUser.getId());	
         }
         
-        message.getBody().add(Serializer.serialize(retUser));
-        System.out.println("[GetUserFromDBLoginAction] Outgoing User id : "+retUser.getId());
+        message.getBody().add(Serializer.serialize(retList));
+        System.out.println("[GetUserFavsFromDBAction] Outgoing User id : "+retUser.getId());
         
         return message;
-    }
-
+    }  
 }

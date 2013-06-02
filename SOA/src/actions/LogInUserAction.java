@@ -1,7 +1,6 @@
 package actions;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import org.jboss.soa.esb.actions.AbstractActionLifecycle;
 import org.jboss.soa.esb.client.ServiceInvoker;
@@ -20,29 +19,10 @@ public class LogInUserAction extends AbstractActionLifecycle {
         _config = config;
     }
 
-    @SuppressWarnings("unchecked")
 	public Message process(Message message) throws Exception {
 
     	Object obj = message.getBody().get();
-    	User request = null;
-        
-    	/*
-    	 * Deserialization, in practice this utilises that static method,
-    	 * but this code is nice
-    	 */
-        if (obj instanceof User) {
-        	request = (User) obj;
-        } else if (obj instanceof byte[]) {
-        	request = (User)Serializer.deserialize((byte[]) obj);
-        } else if (obj instanceof Map) {
-        	Map<User, Object> rowData =(Map<User, Object>)obj;
-        	for (Map.Entry<User, Object> curr : rowData.entrySet()) {
-        		Object value = curr.getValue();
-            	if (value instanceof String) {
-            		request = (User) value;
-            	}
-  		    }
-        }
+    	User request = Serializer.deserializeUser(obj);
         
         System.out.println("[LogInUserAction] Incoming user nick : " + request.getNick());
         

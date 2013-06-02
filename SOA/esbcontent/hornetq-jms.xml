@@ -8,12 +8,12 @@
 		<entry name="/queue/soa_LogInUser_Request_esb_reply"/>
 	</queue>
 
-	<queue name="soa_RegisterUser_Request_esb">
-		<entry name="/queue/soa_RegisterUser_Request_esb"/>
+	<queue name="soa_RegisterUser_Request_esb1">
+		<entry name="/queue/soa_RegisterUser_Request_esb1"/>
 	</queue>
 
-	<queue name="soa_RegisterUser_Request_esb_reply">
-		<entry name="/queue/soa_RegisterUser_Request_esb_reply"/>
+	<queue name="soa_RegisterUser_Request_esb1_reply">
+		<entry name="/queue/soa_RegisterUser_Request_esb1_reply"/>
 	</queue>
 	
 	<queue name="soa_GetAllConferences_esb">
@@ -32,7 +32,21 @@
 		<entry name="/queue/soa_AddConference_esb_reply"/>
 	</queue>
 	
+	<queue name="soa_AddConferenceToUserFavs_esb">
+		<entry name="/queue/soa_AddConferenceToUserFavs_esb"/>
+	</queue>
+
+	<queue name="soa_AddConferenceToUserFavs_esb_reply">
+		<entry name="/queue/soa_AddConferenceToUserFavs_esb_reply"/>
+	</queue>
 	
+	<queue name="soa_GetUserFavs_esb">
+		<entry name="/queue/soa_GetUserFavs_esb"/>
+	</queue>
+
+	<queue name="soa_GetUserFavs_esb_reply">
+		<entry name="/queue/soa_GetUserFavs_esb_reply"/>
+	</queue>
 
 </configuration>
 

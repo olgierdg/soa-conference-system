@@ -1,9 +1,5 @@
 package actions;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import model.Conference;
 
 import org.hibernate.Session;
@@ -13,6 +9,7 @@ import org.jboss.soa.esb.message.Message;
 
 import util.Serializer;
 
+import db.DBUtil;
 import db.HibernateUtil;
 
 public class AddConferenceToDBAction extends AbstractActionLifecycle {
@@ -22,34 +19,19 @@ public class AddConferenceToDBAction extends AbstractActionLifecycle {
         _config = config;
     }
 
-    @SuppressWarnings("unchecked")
 	public Message process(Message message) throws Exception {
 
     	Object obj = message.getBody().get();
-    	Conference request = null;
+    	Conference request = Serializer.deserializeConference(obj);
         
-        if (obj instanceof Conference) {
-        	request = (Conference) obj;
-        } else if (obj instanceof byte[]) {
-        	request = (Conference)Serializer.deserialize((byte[]) obj);
-        } else if (obj instanceof Map) {
-        	Map<Conference, Object> rowData =(Map<Conference, Object>)obj;
-        	for (Map.Entry<Conference, Object> curr : rowData.entrySet()) {
-        		Object value = curr.getValue();
-            	if (value instanceof String) {
-            		request = (Conference) value;
-            	}
-  		    }
-        }
-        
-        System.out.println("[AddConferenceToDBAction] Incoming Conference id : " + request.getId());
+        System.out.println("[AddConferenceToDBAction] Incoming Conference name : " + request.getName());
         
         /*
-         * Check for already taken nick
+         * Check for taken Conference name
          */
-        //User respUser = invokeGetUserFromDBService(request);
+        Conference respCon = DBUtil.checkConferenceInDB(request.getName());
 
-        //if(respUser.getId() == 0){
+        if(respCon == null){
         	/*
         	 * Not taken
         	 */
@@ -58,38 +40,32 @@ public class AddConferenceToDBAction extends AbstractActionLifecycle {
         	/* 
         	 * Check for successful add and get new ID
         	 */
-        	Conference respUser = checkConferenceInDB(request);
+        	Conference respCon2 = DBUtil.checkConferenceInDB(request.getName());
         	
-            if(respUser == null){
+            if(respCon2 == null){
             	/*
             	 * Unsuccessful add
             	 */
-            	respUser = request;
-            	respUser.setId(-2);
-            	//respUser.setIdsConferences(new ArrayList<Integer>());
+            	respCon = request;
+            	respCon.setId(-2);
             	
             }else{
             	/*
             	 * Successful add, we have a new ID
             	 */
-            	//respUser = respUser2;
-            	/*
-            	 * Get Conferences list for new User
-            	 */
-            	//respUser.setIdsConferences(getList(respUser));
+            	respCon = respCon2;
             }
-
-       // }else{ 	
+        }else{ 	
         	/*
         	 * Taken
         	 */
-        //	respUser.setId(-1);
-     //   	respUser.setIdsConferences(new ArrayList<Integer>());
-     //   }
-
-        message.getBody().add(Serializer.serialize(respUser));
+        	respCon = request;
+        	respCon.setId(-1);
+        }
+     
+        message.getBody().add(Serializer.serialize(respCon));
         
-        System.out.println("[AddConferenceToDBAction] Outgoing Conference id : " +respUser.getId());
+        System.out.println("[AddConferenceToDBAction] Outgoing Conference id : " +respCon.getId());
         
         return message;
     }
@@ -99,56 +75,5 @@ public class AddConferenceToDBAction extends AbstractActionLifecycle {
 		session.beginTransaction();
 		session.save(u);
 		session.getTransaction().commit();
-	}
-  
-    @SuppressWarnings("rawtypes")
-   	public static Conference checkConferenceInDB(Conference user){
-    	Conference retUser = null;
-   		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-   		session.beginTransaction();  		
-   		List list = session.createSQLQuery("select * from _conference;").addEntity(Conference.class).list();
-   		Iterator itr = list.iterator();
-   		while(itr.hasNext()){
-   			Conference u = (Conference)itr.next();
-   			if (user.getName().trim().equals(u.getName().trim())) {
-   				retUser = u;
-   				break;
-   			}
-   		}		
-   		session.getTransaction().commit();
-   		return retUser;
-   		
-   	}
-       
-    /*
-    @SuppressWarnings("unchecked")
-   	public static List<Integer> getList(User user){
-   		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-   		session.beginTransaction();
-
-   		List<Integer> list = session.createSQLQuery(
-   				"select elt from _user_idsconferences us " +
-   				"where us.idsconferences = " + user.getId() +";").list();
-
-   		session.getTransaction().commit();
-
-   		return list;
-   	}
-    
-    private User invokeGetUserFromDBService(User u) throws Exception{
-    	System.setProperty("javax.xml.registry.ConnectionFactoryClass",
-				"org.apache.ws.scout.registry.ConnectionFactoryImpl");
-        Message esbMessage = MessageFactory.getInstance().getMessage();
-        esbMessage.getBody().add(Serializer.serialize(u));
-        
-        Message response = new ServiceInvoker("UserServices",
-				"GetUserFromDBRegisterService").deliverSync(esbMessage, 10000);
-        
-        Object resp = response.getBody().get();
-        
-        User respUser = (User)Serializer.deserialize((byte[]) resp);
-        
-        return respUser;
-    }
-    */
+	} 
 }

@@ -26,13 +26,6 @@ public class GetAllConferencesFromDBAction extends AbstractActionLifecycle {
            
         List<Conference> list = getConferences();
         
-        /*
-        if(retUser == null)
-        	retUser = request;
-        else{
-        	retUser.setIdsConferences(getList(retUser));
-        }
-        */
         message.getBody().add(Serializer.serialize(list));
         System.out.println("[GetAllConferencesFromDBAction] Get all conferences response");
         
@@ -42,28 +35,12 @@ public class GetAllConferencesFromDBAction extends AbstractActionLifecycle {
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List<Conference> getConferences(){
-    	//User retUser = null;
+    	
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		List list = session.createSQLQuery("select * from _conference;").addEntity(Conference.class).list();
 		
 		session.getTransaction().commit();
 		return list;
-	}
-    
-    /*
-    @SuppressWarnings("unchecked")
-   	public static List<Integer> getList(User user){
-   		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-   		session.beginTransaction();
-
-   		List<Integer> list = session.createSQLQuery(
-   				"select elt from _user_idsconferences us " +
-   				"where us.idsconferences = " + user.getId() +";").list();
-
-   		session.getTransaction().commit();
-
-   		return list;
-   	}
-   */
+	}   
 }

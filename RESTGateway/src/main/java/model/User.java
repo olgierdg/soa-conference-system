@@ -4,23 +4,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-//import javax.xml.bind.annotation.XmlElement;
-//import javax.xml.bind.annotation.XmlRootElement;
-
-//@XmlRootElement
 public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	//@XmlElement(name = "id")
 	private int id;
 	
-	//@XmlElement(name = "nick")
 	private String nick;
 	
-	//@XmlElement(name = "password")
 	private String password;
 	
-	//@XmlElement(name = "idsConferences")
 	private List<Integer> idsConferences;
 
 	public User(){
