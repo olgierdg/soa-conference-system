@@ -18,12 +18,12 @@ AddConferenceToUserFavsService (.../conference/addtouserfav)
 GetUserFavsService (.../conference/getuserfav)
 
 - Input - obiekt klasy User z dobrym id - po zalogowaniu
-- Output - obiekt List\<Conferences\> zawierajacy ulubione konferencje uzytkownika lub null gdy takich nie ma
+- Output - obiekt List\<Conference\> zawierajacy ulubione konferencje uzytkownika lub null gdy takich nie ma
 
 GetAllConferencesService (.../conference/getall)
 
 - Input - nic, wywolanie jak HTTP GET
-- Output - obiekt List\<Conferences\> zawierajacy liste wszystkich konferencji lub null gdy takich nie ma
+- Output - obiekt List\<Conference\> zawierajacy liste wszystkich konferencji lub null gdy takich nie ma
 
 RegisterUserService (.../user/register)
 
