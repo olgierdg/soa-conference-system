@@ -4,7 +4,6 @@ soa-conference-system
 Conference System in Service Oriented Architecture
 
 Usługi warstwy "zewnetrznej" (w nawiasie sciezka dla Androida):
--------
 
 AddConferenceService (.../conference/add)
 
