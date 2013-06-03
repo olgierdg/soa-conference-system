@@ -1,5 +1,6 @@
 package actions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -25,6 +26,8 @@ public class GetAllConferencesFromDBAction extends AbstractActionLifecycle {
         System.out.println("[GetAllConferencesFromDBAction] Get all conferences request");
            
         List<Conference> list = getConferences();
+        if(list == null)
+        	list = new ArrayList<Conference>();
         
         message.getBody().add(Serializer.serialize(list));
         System.out.println("[GetAllConferencesFromDBAction] Get all conferences response");

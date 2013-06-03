@@ -30,17 +30,17 @@ public class DBUtil {
    		return list;
    	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
    	public static List<Conference> getFavsList(int id){
    		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
    		session.beginTransaction();
 
-   		List<Conference> list = session.createSQLQuery(
+   		List list = session.createSQLQuery(
    				"SELECT c.id,c.name,c.city,c.date,c.description,c.speaker,c.bio,c.lat,c.lon " +
    				"FROM _user u " +
    				"JOIN _user_idsconferences uc ON(u.userid = uc.idsconferences) " +
    				"JOIN _conference c ON(uc.elt = c.id) " +
-   				"WHERE userid = " + id +";").list();
+   				"WHERE userid = " + id +";").addEntity(Conference.class).list();
 
    		session.getTransaction().commit();
    		return list;

@@ -1,5 +1,8 @@
 package actions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jboss.soa.esb.actions.AbstractActionLifecycle;
 import org.jboss.soa.esb.helpers.ConfigTree;
 import org.jboss.soa.esb.message.Message;
@@ -17,6 +20,7 @@ public class GetUserFromDBLoginAction extends AbstractActionLifecycle {
         _config = config;
     }
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Message process(Message message) throws Exception {
 
     	Object obj = message.getBody().get();
@@ -29,7 +33,10 @@ public class GetUserFromDBLoginAction extends AbstractActionLifecycle {
         if(retUser == null)
         	retUser = request;
         else{
-        	retUser.setIdsConferences(DBUtil.getFavsIdsList(retUser.getId()));
+        	List l = DBUtil.getFavsIdsList(retUser.getId());
+        	if(l == null)
+        		l = new ArrayList<Integer>();
+        	retUser.setIdsConferences(l);
         }
         
         message.getBody().add(Serializer.serialize(retUser));

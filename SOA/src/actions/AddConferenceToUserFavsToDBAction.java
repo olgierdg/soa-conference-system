@@ -1,5 +1,6 @@
 package actions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import model.Conference;
@@ -63,6 +64,9 @@ public class AddConferenceToUserFavsToDBAction extends AbstractActionLifecycle {
         	}
         }
   
+        if(retList == null)
+    		retList = new ArrayList<Conference>();
+        
         message.getBody().add(Serializer.serialize(retList));
         
         System.out.println("[AddConferenceToUserFavsToDBAction] Outgoing Favs list");

@@ -60,7 +60,8 @@ public class AddUserToDBAction extends AbstractActionLifecycle {
             	/*
             	 * Get Conferences list for new User
             	 */
-            	respUser.setIdsConferences(DBUtil.getFavsIdsList(respUser.getId()));
+            	//respUser.setIdsConferences(DBUtil.getFavsIdsList(respUser.getId()));
+            	respUser.setIdsConferences(new ArrayList<Integer>());
             }
 
         }else{ 	

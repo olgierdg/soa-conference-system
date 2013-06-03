@@ -1,5 +1,6 @@
 package actions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.soa.esb.actions.AbstractActionLifecycle;
@@ -33,7 +34,10 @@ public class GetUserFavsFromDBAction extends AbstractActionLifecycle {
         
         if(retUser != null){       
         	retList = DBUtil.getFavsList(retUser.getId());	
-        }
+        	if(retList == null)
+        		retList = new ArrayList<Conference>();
+        }else
+        	retList = new ArrayList<Conference>();
         
         message.getBody().add(Serializer.serialize(retList));
         System.out.println("[GetUserFavsFromDBAction] Outgoing User id : "+retUser.getId());

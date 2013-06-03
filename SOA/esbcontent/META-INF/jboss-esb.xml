@@ -51,7 +51,7 @@
     <action class="actions.LogInUserAction" name="LogInUserAction"/>
    </actions>
   </service>
-  
+
   <service category="UserServices" description="Get User from DB Login Service" name="GetUserFromDBLoginService">
    <listeners>
     <jms-listener busidref="SOALogInUserChannel" name="SOALoginGetUserFromDBLoginListener"/>
@@ -60,7 +60,7 @@
     <action class="actions.GetUserFromDBLoginAction" name="GetUserFromDBLoginAction"/>
    </actions>
   </service>
-
+ <!--  
   <service category="UserServices" description="Get User from DB Register Service" name="GetUserFromDBRegisterService">
    <listeners>
     <jms-listener busidref="SOARegisterUserChannel" name="SOARegisterGetUserFromDBRegisterListener"/>
@@ -69,7 +69,7 @@
     <action class="actions.GetUserFromDBRegisterAction" name="GetUserFromDBRegisterAction"/>
    </actions>
   </service>
-  
+ -->
   <service category="UserServices" description="Add User to DB Service" name="AddUserToDBService">
    <listeners>
     <jms-listener busidref="SOARegisterUserChannel" name="SOAAddUserToDBListener"/>

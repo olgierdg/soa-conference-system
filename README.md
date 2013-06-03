@@ -13,17 +13,17 @@ AddConferenceService (.../conference/add)
 AddConferenceToUserFavsService (.../conference/addtouserfav)
 
 - Input - id dodawanej konferencji z kluczem "conferenceid" oraz id uzytkownika z kluczem "userid" (dla Androida obiekt klasy UserAndConferenceIDs)
-- Output - obiekt List\<Conference\> zawierajacy liste ulubionych konferencji uzytkownika
+- Output - obiekt List\<Conference\> zawierajacy liste ulubionych konferencji uzytkownika lub pusta liste w przypadku niepowodzenia
 
 GetUserFavsService (.../conference/getuserfav)
 
 - Input - obiekt klasy User z dobrym id - po zalogowaniu
-- Output - obiekt List\<Conference\> zawierajacy ulubione konferencje uzytkownika lub null gdy takich nie ma
+- Output - obiekt List\<Conference\> zawierajacy ulubione konferencje uzytkownika lub pusta liste w przypadku gdy takich nie ma
 
 GetAllConferencesService (.../conference/getall)
 
 - Input - nic, wywolanie jak HTTP GET
-- Output - obiekt List\<Conference\> zawierajacy liste wszystkich konferencji lub null gdy takich nie ma
+- Output - obiekt List\<Conference\> zawierajacy liste wszystkich konferencji lub pusta liste gdy takich nie ma
 
 RegisterUserService (.../user/register)
 

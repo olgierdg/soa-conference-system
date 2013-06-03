@@ -33,7 +33,7 @@ public class JSONService {
 	@Produces("application/json")
 	public String testGet() throws Exception{
 		
-		
+		/*
 		List<Integer> l = new ArrayList<Integer>();
 		l.add(1);
 		l.add(2);
@@ -43,6 +43,18 @@ public class JSONService {
 		UserAndConferenceIDs uci = new UserAndConferenceIDs();
 		uci.setUserid(2);
 		uci.setConferenceid(3);
+		*/
+		
+		
+		Conference c1 = new Conference(1, "Google I/O", "Kraków", "1/1/2014","Opis konferencji odbywającej się w Krakowie. Wszystkich zapraszamy.", "Karol Adamski", "Urodzony w 1940r. nasz najlepszy programista, można o nim mówić w samych superlatywach", 50.3, 19.9);
+		Conference c2 = new Conference(2, "AGH Bajki o sztucznej inteligencji", "Kraków", "3/1/2014","Bajki i baśnie w wykonaniu najlepszych. Wszystkich zapraszamy.", "Zbigniew Krawczyk", "Bajkopisarz, zna się na rzeczy, lubi marzyć, że roboty podbiją świat", 50.3, 19.9);
+		Conference c3 = new Conference(3, "Nad morze i z powrotem", "Gdańsk", "10/5/2014","Wyruszmy na najlepszą przygodę po oceanach. Konferencja o tym jak żeglować aby wrócić", "Paweł Gaduła", "Marynarz z marines, przeżył wszystko co można przeżyć. Stracił dłoń, w zamian nosi hak stąd też pseudonim artystyczny 'cpt hook' ", 54.3, 18.6);
+		Conference c4 = new Conference(4, "O malarstwie słów kilka", "Warszawa", "2/4/2014","Maluj jak najlepsi, Picasso, Pollock, maluj cokolwiek, a będziesz artystą", "Wiesław von Artist", "Uzdolniony malarz XXI wieku, nie ma sobie równych, maluje wszystkim co ma pod ręką", 52.2, 21.0);
+		Conference c5 = new Conference(5, "Wychowanie dzieci - zabawa czy koszmar", "Poznań", "13/10/2014","Poznasz tajniki, które pozwolą Ci w końcu założyć zakupioną koszulkę z nadrukiem 'Best Dad' lub 'Best Mum' ", "Grażyna Witkowska", "Niania, występowała w wielu tv show. Zna się na wszystkim co do tyczy dzieci, włącznie z tym jak je ubrać aby wyglądały modnie", 52.4, 16.9);
+		Conference c6 = new Conference(6, "Najnowsze technologie w edukacji", "Łódź", "23/7/2014","Czyli jak pomóc uczniowi w nauce. Dowiesz się o tym co zrobić aby młodzi ludzie nie mogli odłączyć się od komputera kończąc na terapii leczącej uzależnienia od internetu", "Mariusz Pasta", "Doktor w dziedzinie wszelakich uzależnień. Wie jak wyleczyć każdego ze wszystkiego", 51.7, 19.5);
+		Conference c7 = new Conference(7, "Przyroda w okół nas", "Zakopane", "19/11/2014","Szanuj zieleń, to hasło każdej osoby przywiązującej się do drzewa. Dowiedz się jak z tymi osobami walczyć tak aby samemu się nie wykończyć", "Wiesława Lambert", "Przyrodniczka urodzona w 1980r. Odpowie na każde pytanie dotyczące walki z greenpeace, ponieważ sama kiedyś zakuła się w kajdanki przy sośnie na cały tydzień.", 49.3, 20.0);
+		Conference c8 = new Conference(8, "Miłość w kamienicach", "Wrocław", "9/6/2014","Poznaj życie w kamienicy, gdzie nie grozi Ci wybuch piecyka gazowego, ponieważ go nie masz. Dowiesz się jak założyć rodzinę w kamienicy do rozbiórki, dostając jedynie zasiłek dla bezrobotnych.", "Jan Ostowski", "Wiekowa już postać, która żyła w kamienicy przez ponad pół swojego życia. Obecnie milioner z kontem w Szwajcarii.", 51.1, 17.0);
+		
 		
 		//Conference c8 = new Conference(8, "Miłość w kamienicach", "Wrocław", "9/6/2014","Poznaj życie w kamienicy, gdzie nie grozi Ci wybuch piecyka gazowego, ponieważ go nie masz. Dowiesz się jak założyć rodzinę w kamienicy do rozbiórki, dostając jedynie zasiłek dla bezrobotnych.", "Jan Ostowski", "Wiekowa już postać, która żyła w kamienicy przez ponad pół swojego życia. Obecnie milioner z kontem w Szwajcarii.", 51.1, 17.0);
 		/*
@@ -55,7 +67,15 @@ public class JSONService {
 				56.78);
 				*/
 		Gson gson = new Gson();
-		String s = getUserFavs(gson.toJson(u));
+		addConference(gson.toJson(c1));
+		addConference(gson.toJson(c2));
+		addConference(gson.toJson(c3));
+		addConference(gson.toJson(c4));
+		addConference(gson.toJson(c5));
+		addConference(gson.toJson(c6));
+		addConference(gson.toJson(c7));
+		String s = addConference(gson.toJson(c8));
+		//String s = getUserFavs(gson.toJson(u));
 		//String s = registerUser(gson.toJson(u));
 		
 		return s;
@@ -63,7 +83,7 @@ public class JSONService {
 	
 	@SuppressWarnings("unchecked")
 	@POST
-	@Path("/conference/add")
+	@Path("/conference/addtouserfav")
 	@Produces("application/json")
 	public String addConferenceToUserFavs(String objString) throws Exception{
 
@@ -129,12 +149,13 @@ public class JSONService {
 		}
 
 		System.out.println("[REST Gateway POST] Outgoing response, id : " + c.getId());
+		System.out.println("-------------------------------------------");
 		
 		return gson.toJson(response);	
 	}
 	
 	@SuppressWarnings("unchecked")
-	@GET
+	@POST
 	@Path("/conference/getuserfav")
 	@Produces("application/json")
 	public String getUserFavs(String objString) throws Exception{
@@ -230,7 +251,11 @@ public class JSONService {
 		}
 		
 		System.out.println("[REST Gateway POST] Outgoing response says : " + response.getId());
-        System.out.println("-------------------------------------------");
+		if(response.getIdsConferences() == null)
+			System.out.println("[REST Gateway POST] LIST IS NULL");
+		if(response.getIdsConferences().size() == 0)
+			System.out.println("[REST Gateway POST] LIST IS EMPTY");
+		System.out.println("-------------------------------------------");
 			
         return gson.toJson(response);  
 	}
@@ -264,7 +289,9 @@ public class JSONService {
 		}
 		
 		System.out.println("[REST Gateway POST] Outgoing response says : " + response.getId());
-        System.out.println("-------------------------------------------");
+		if(response.getIdsConferences() == null)
+			System.out.println("[REST Gateway POST] LIST IS NULL");
+		System.out.println("-------------------------------------------");
 		
         return gson.toJson(response);
 	}
