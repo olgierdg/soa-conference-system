@@ -19,31 +19,28 @@ public class ImageAdapter extends BaseAdapter{
 	
 	public ImageAdapter(Context context, int w, int h){
 		this.context = context;
-		width = w;
-		height = h;
+		this.width = w;
+		this.height = h;
+		//this.imageIds = ids;
 	}
 	
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return imageIds.length;
 	}
 
 	@Override
 	public Object getItem(int arg0) {
-		// TODO Auto-generated method stub
 		return imageIds[arg0];
 	}
 
 	@Override
 	public long getItemId(int arg0) {
-		// TODO Auto-generated method stub
 		return arg0;
 	}
 
 	@Override
 	public View getView(int arg0, View arg1, ViewGroup arg2) {
-		// TODO Auto-generated method stub
 		ImageView iv = new ImageView(context);
 		iv.setImageResource(imageIds[arg0]);
 		iv.setScaleType(ScaleType.FIT_XY);

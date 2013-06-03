@@ -1,10 +1,8 @@
 package model;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -22,22 +20,23 @@ public class ParcelableUser implements Parcelable{
 	}
 	
 	public User getUser() {
-		return user;
+		return this.user;
 	}
 
 	public void setUser(User user) {
 		this.user = user;
 	}
 
-	@SuppressWarnings("unchecked")
 	public ParcelableUser(Parcel in) throws ParseException {
+		this();
 		user.setId(in.readInt());
 		user.setNick(in.readString());
 		user.setPassword(in.readString());
-		List<Integer> array = user.getIdsConferences();
-		array = new ArrayList<Integer>();
-	    in.readTypedList(array, null);
+		List<Integer> array = new ArrayList<Integer>();
+		in.readList(array, Integer.class.getClassLoader());
 		user.setIdsConferences(array);
+		//Integer[] b = Arrays.copyOf(in.readArray(null), in.readArray(null).length, Integer[].class);
+		//user.setIdsConferences(Arrays.asList(b));
 	}
 	
 	@Override
@@ -52,7 +51,12 @@ public class ParcelableUser implements Parcelable{
 		arg0.writeInt(user.getId());
 		arg0.writeString(user.getNick());
 		arg0.writeString(user.getPassword());
+		//arg0.writeTypedList(user.getIdsConferences());
+		//Integer[] a = new Integer[user.getIdsConferences().size()];
+		//user.getIdsConferences().toArray(a);
+		//arg0.writeArray(a);
 		arg0.writeList(user.getIdsConferences());
+		
 	}
 	
 	public static final Parcelable.Creator<ParcelableUser> CREATOR = new Parcelable.Creator<ParcelableUser>() {

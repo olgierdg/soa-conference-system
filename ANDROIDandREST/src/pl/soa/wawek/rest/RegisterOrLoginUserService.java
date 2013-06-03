@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-public class PostRest extends IntentService {
+public class RegisterOrLoginUserService extends IntentService {
 
 	private HttpClient httpClient;
 	private HttpPost httpPost;
@@ -32,7 +32,7 @@ public class PostRest extends IntentService {
 	private model.User user;
 	private String urlclass;
 	
-	public PostRest() {
+	public RegisterOrLoginUserService() {
 		super("PostRestService");
 	}
 
@@ -87,7 +87,7 @@ public class PostRest extends IntentService {
 				InputStream instream = null;
 				String result = new String();
 				instream = entity.getContent();
-				result = GetRest.convertStreamToString(instream);
+				result = GetAllConferencesService.convertStreamToString(instream);
 				Gson gson = new Gson();
 				user = gson.fromJson(result, model.User.class);
 				pUser.setUser(user);

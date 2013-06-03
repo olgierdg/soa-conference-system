@@ -1,9 +1,8 @@
 package pl.soa.wawek.androidandrest;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 
+import pl.soa.wawek.rest.AddConferenceToUserFavsService;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +20,8 @@ import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 @SuppressWarnings("deprecation")
 public class MultiTabActivity extends TabActivity{
 
@@ -30,13 +31,14 @@ public class MultiTabActivity extends TabActivity{
 	private TabSpec spec3;
 	private TabSpec spec4;
 	
-	model.Conference conf; //moze trzeba bedzie zmienic na model.Conference
+	model.Conference conf; 
+	model.ParcelableUser puser;
+	model.User user;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.multitab);
 		
-		//uzyskanie danych na podstawie klikniecia pozycji z listy w MainAcitivty
 		try {
 			getExtrasAboutConference();
 		} catch (ParseException e) {
@@ -60,6 +62,7 @@ public class MultiTabActivity extends TabActivity{
 		spec2=tabHost.newTabSpec("Galeria");
 		spec2.setIndicator(v2);
 		Intent galleryIntent = new Intent(this, GalleryActivity.class);
+		//galleryIntent.putExtra("ids", tablicazdjec);
 		spec2.setContent(galleryIntent);
 
 		spec3=tabHost.newTabSpec("Prelegenci");
@@ -92,6 +95,8 @@ public class MultiTabActivity extends TabActivity{
 	public void getExtrasAboutConference() throws ParseException{
 		Bundle extras = getIntent().getExtras();
 		conf = new model.Conference();
+		puser = new model.ParcelableUser();
+		user = new model.User();
 		conf.setId(extras.getInt("id"));
 		conf.setName(extras.getString("name"));
 		conf.setCity(extras.getString("city"));
@@ -101,13 +106,22 @@ public class MultiTabActivity extends TabActivity{
 		conf.setBio(extras.getString("bio"));
 		conf.setLat(extras.getDouble("lat"));
 		conf.setLon(extras.getDouble("lon"));
+		puser = extras.getParcelable("puser");
+		user = puser.getUser();
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
 		switch(item.getItemId()){
 		case R.id.menu_add_fav:
-			
+			Intent service = new Intent(MultiTabActivity.this, AddConferenceToUserFavsService.class);
+			Gson gson = new Gson();
+			model.UserAndConferenceIDs uandcids = new model.UserAndConferenceIDs();
+			uandcids.setUserid(user.getId());
+			uandcids.setConferenceid(conf.getId());
+			String json = gson.toJson(uandcids);
+			service.putExtra("jsonobj", json);
+			startService(service);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

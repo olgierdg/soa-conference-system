@@ -58,6 +58,7 @@
         </activity>
         <activity
             android:name="pl.soa.wawek.androidandrest.GalleryActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="pl.soa.wawek.androidandrest.GALLERYACTIVITY" />
@@ -101,14 +102,29 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="pl.soa.wawek.androidandrest.Favourites"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="pl.soa.wawek.androidandrest.FAVOURITES" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <!-- SERVICES -->
         <service
-            android:name="pl.soa.wawek.rest.GetRest">
+            android:name="pl.soa.wawek.rest.GetAllConferencesService">
         </service>
         <service
-            android:name="pl.soa.wawek.rest.PostRest">
+            android:name="pl.soa.wawek.rest.RegisterOrLoginUserService">
         </service>
-                
+		<service
+		    android:name="pl.soa.wawek.rest.AddConferenceToUserFavsService">
+		</service>
+        <service
+            android:name="pl.soa.wawek.rest.GetUserFavsService">
+        </service>
+		
         <uses-library android:name="com.google.android.maps" />
         
     </application>

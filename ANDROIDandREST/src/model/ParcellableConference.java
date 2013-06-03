@@ -1,8 +1,6 @@
 package model;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.os.Parcel;
@@ -18,7 +16,7 @@ public class ParcellableConference implements Parcelable {
 	}
 
 	public ParcellableConference(Conference conference) {
-		this.conference = conference; // tu zglupialem
+		this.conference = conference; 
 	}
 
 	public Conference getConference() {

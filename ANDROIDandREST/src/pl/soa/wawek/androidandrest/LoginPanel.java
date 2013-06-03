@@ -2,24 +2,15 @@ package pl.soa.wawek.androidandrest;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Collection;
 
-import model.Conference;
 import model.User;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.google.gson.Gson;
-
 import pl.soa.wawek.androidandrest.MyReceiver.Receiver;
-import pl.soa.wawek.rest.GetRest;
-import pl.soa.wawek.rest.PostRest;
+import pl.soa.wawek.rest.GetAllConferencesService;
+import pl.soa.wawek.rest.RegisterOrLoginUserService;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,6 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 public class LoginPanel extends Activity implements Receiver {
 
@@ -38,6 +31,7 @@ public class LoginPanel extends Activity implements Receiver {
 	Button bLogin;
 	Button bRegister;
 	private model.User user;
+	private model.ParcelableUser pUser;
 	private MyReceiver mReceiver;
 	private ArrayList<model.ParcellableConference> conf;
 
@@ -66,17 +60,18 @@ public class LoginPanel extends Activity implements Receiver {
 				// checkPassword(etPasswordLogin.getText().toString());
 				try {
 					user = new model.User(0, etUserLogin.getText().toString(),
-							User.hashPasswordWithMD5(etPasswordLogin.getText().toString()), new ArrayList<Integer>());
+							User.hashPasswordWithMD5(etPasswordLogin.getText()
+									.toString()), new ArrayList<Integer>());
 				} catch (NoSuchAlgorithmException e) {
 					e.printStackTrace();
 				}
 				Gson gson = new Gson();
 				String jsonString = gson.toJson(user);
 				Intent serviceIntent = new Intent(LoginPanel.this,
-						PostRest.class);
+						RegisterOrLoginUserService.class);
 				serviceIntent.putExtra("receiver", mReceiver);
 				serviceIntent.putExtra("jsonobj", jsonString);
-				serviceIntent.putExtra("class", "user/login"); 
+				serviceIntent.putExtra("class", "user/login");
 				startService(serviceIntent);
 			}
 
@@ -88,18 +83,20 @@ public class LoginPanel extends Activity implements Receiver {
 			public void onClick(View v) {
 				// checkPassword(etPasswordLogin.getText().toString());
 				try {
-					user = new model.User(0, etUserRegister.getText().toString(),
-							User.hashPasswordWithMD5(etPasswordRegister.getText().toString()), new ArrayList<Integer>());
+					user = new model.User(0, etUserRegister.getText()
+							.toString(), User
+							.hashPasswordWithMD5(etPasswordRegister.getText()
+									.toString()), new ArrayList<Integer>());
 				} catch (NoSuchAlgorithmException e) {
 					e.printStackTrace();
 				}
 				Gson gson = new Gson();
 				String jsonString = gson.toJson(user);
 				Intent serviceIntent = new Intent(LoginPanel.this,
-						PostRest.class);
+						RegisterOrLoginUserService.class);
 				serviceIntent.putExtra("receiver", mReceiver);
 				serviceIntent.putExtra("jsonobj", jsonString);
-				serviceIntent.putExtra("class", "user/register"); 
+				serviceIntent.putExtra("class", "user/register");
 				startService(serviceIntent);
 
 			}
@@ -130,24 +127,34 @@ public class LoginPanel extends Activity implements Receiver {
 	public void onReceiveResult(int resultCode, Bundle resultData) {
 		// tu sie ma odbywac sprawdzanie czy sie udalo zalogowac badz
 		// zarejestrowac
-		if(resultCode == 0){ // POSTREST
-			model.ParcelableUser pUser = new model.ParcelableUser();
+		if (resultCode == 0) { // POSTREST
+			pUser = new model.ParcelableUser();
 			pUser = resultData.getParcelable("user");
 			user.setId(pUser.getUser().getId());
 			user.setNick(pUser.getUser().getNick());
 			user.setPassword(pUser.getUser().getPassword());
 			user.setIdsConferences(pUser.getUser().getIdsConferences());
 			if (user.getId() > 0) {
-				Intent getService = new Intent(LoginPanel.this, GetRest.class);
+				Intent getService = new Intent(LoginPanel.this,
+						GetAllConferencesService.class);
 				getService.putExtra("GetReceiver", mReceiver);
 				startService(getService);
 			}
 		}
-		if(resultCode == 1){
+		if (resultCode == 1) {
 			conf = resultData.getParcelableArrayList("conferences");
-			Intent i = new Intent(LoginPanel.this, MainActivity.class);
-			i.putParcelableArrayListExtra("conferences", conf);
-			startActivity(i);
+			if (conf.isEmpty()) {
+				Toast t = new Toast(LoginPanel.this);
+				t.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+				t.setDuration(Toast.LENGTH_SHORT);
+				t.setText("Brak konferencji w bazie");
+				t.show();
+			} else {
+				Intent i = new Intent(LoginPanel.this, MainActivity.class);
+				i.putParcelableArrayListExtra("conferences", conf);
+				i.putExtra("puser", pUser);
+				startActivity(i);
+			}
 		}
 	}
 }

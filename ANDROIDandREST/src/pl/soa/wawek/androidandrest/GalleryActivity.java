@@ -18,13 +18,15 @@ public class GalleryActivity extends Activity{
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.gallery);
 		gallery = (Gallery) findViewById(R.id.gallery);
 		Display mDisplay= getWindowManager().getDefaultDisplay();
 		int width= mDisplay.getWidth();
 		int height= mDisplay.getHeight();
+		//Bundle b = getIntent().getExtras();
+		//int [] ids = b.getIntArray("ids");
+		//imageAdapter = new ImageAdapter(this, width, height, ids);
 		imageAdapter = new ImageAdapter(this, width, height);
 		gallery.setAdapter(imageAdapter);
 		gallery.setOnItemClickListener(new OnItemClickListener(){
@@ -32,7 +34,6 @@ public class GalleryActivity extends Activity{
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				// TODO Auto-generated method stub
 				
 			}
 			

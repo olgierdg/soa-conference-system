@@ -1,22 +1,21 @@
 package pl.soa.wawek.androidandrest;
 
-import pl.soa.wawek.androidandrest.R;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.LatLng;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 
 @SuppressLint("NewApi")
 public class MapActivity extends Activity{
 
 	private GoogleMap map;
-	private LatLng CITY;
-
 
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +25,13 @@ public class MapActivity extends Activity{
         map = ((MapFragment)getFragmentManager().findFragmentById(R.id.map)).getMap();
         
         Bundle extras = getIntent().getExtras();
-        CITY = new LatLng(extras.getDouble("lat"), extras.getDouble("lon"));
+        double lat, lon;
+        lat = extras.getDouble("lat");
+        lon = extras.getDouble("lon");
+        final LatLng CITY = new LatLng(lat,lon);
         
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(CITY, 15));
+        map.addMarker(new MarkerOptions().position(CITY).title("Tutaj"));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(CITY, 25));
         map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
     }
 
