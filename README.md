@@ -15,6 +15,11 @@ AddConferenceToUserFavsService (.../conference/addtouserfav)
 - Input - id dodawanej konferencji z kluczem "conferenceid" oraz id uzytkownika z kluczem "userid" (dla Androida obiekt klasy UserAndConferenceIDs)
 - Output - obiekt List\<Conference\> zawierajacy liste ulubionych konferencji uzytkownika lub pusta liste w przypadku niepowodzenia
 
+RemoveConferenceFromUserFavsService (.../conference/addtouserfav)
+
+- Input - id dodawanej konferencji z kluczem "conferenceid" oraz id uzytkownika z kluczem "userid" (dla Androida obiekt klasy UserAndConferenceIDs)
+- Output - obiekt List\<Conference\> zawierajacy liste ulubionych konferencji uzytkownika lub pusta liste w przypadku niepowodzenia
+
 GetUserFavsService (.../conference/getuserfav)
 
 - Input - obiekt klasy User z dobrym id - po zalogowaniu

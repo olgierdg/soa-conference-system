@@ -11,6 +11,8 @@
 	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_AddConference_esb_reply"</jmsQueue>
 	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_AddConferenceToUserFavs_esb"</jmsQueue>
 	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_AddConferenceToUserFavs_esb_reply"</jmsQueue>
+	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_RemoveConferenceFromUserFavs_esb"</jmsQueue>
+	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_RemoveConferenceFromUserFavs_esb_reply"</jmsQueue>
 	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_GetUserFavs_esb"</jmsQueue>
 	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_GetUserFavs_esb_reply"</jmsQueue>
 	

@@ -1,6 +1,5 @@
 package rest;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -102,6 +101,43 @@ public class JSONService {
     	
     	ServiceInvoker si = new ServiceInvoker("ConferenceServices",
 				"AddConferenceToUserFavsService");
+		Message msg = si.deliverSync(esbMessage, 5000);
+    	
+		Object obj = msg.getBody().get();
+		List<Conference> response = null;
+		
+		if (obj instanceof List<?>) {
+			response = (List<Conference>) obj;
+		} else if (obj instanceof byte[]) {
+			response = (List<Conference>) Serializer.deserialize((byte[]) obj);
+		}
+
+		System.out.println("[REST Gateway POST] Outgoing response");
+		
+		return gson.toJson(response);	
+	}
+	
+	@SuppressWarnings("unchecked")
+	@POST
+	@Path("/conference/removefromuserfav")
+	@Produces("application/json")
+	public String removeConferenceFromUserFavs(String objString) throws Exception{
+
+		Gson gson = new Gson();
+		
+		UserAndConferenceIDs c = gson.fromJson(objString, UserAndConferenceIDs.class);
+		
+		System.out.println("[REST Gateway POST] removeConferenceFromUserFavs, userid : " + c.getUserid() + ", conferenceid : "+c.getConferenceid());
+		
+		System.setProperty("javax.xml.registry.ConnectionFactoryClass", "org.apache.ws.scout.registry.ConnectionFactoryImpl");
+	
+        Message esbMessage = MessageFactory.getInstance().getMessage();
+
+        esbMessage.getBody().add("userid", c.getUserid());
+        esbMessage.getBody().add("conferenceid", c.getConferenceid() );
+    	
+    	ServiceInvoker si = new ServiceInvoker("ConferenceServices",
+				"RemoveConferenceFromUserFavsService");
 		Message msg = si.deliverSync(esbMessage, 5000);
     	
 		Object obj = msg.getBody().get();

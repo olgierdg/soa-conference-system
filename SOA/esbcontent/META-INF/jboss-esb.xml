@@ -20,6 +20,10 @@
    <jms-bus busid="SOAAddConferenceToUserFavsChannel">
     <jms-message-filter dest-name="queue/soa_AddConferenceToUserFavs_esb" dest-type="QUEUE"/>
    </jms-bus>
+    
+   <jms-bus busid="SOARemoveConferenceFromUserFavsChannel">
+    <jms-message-filter dest-name="queue/soa_RemoveConferenceFromUserFavs_esb" dest-type="QUEUE"/>
+   </jms-bus>
    
    <jms-bus busid="SOAGetAllConferencesChannel">
     <jms-message-filter dest-name="queue/soa_GetAllConferences_esb" dest-type="QUEUE"/>
@@ -112,6 +116,24 @@
    </listeners>
    <actions mep="RequestResponse">
     <action class="actions.AddConferenceToUserFavsToDBAction" name="AddConferenceToUserFavsToDBAction"/>
+   </actions>
+  </service>
+  
+  <service category="ConferenceServices" description="Remove Conference From User Favs Service" name="RemoveConferenceFromUserFavsService">
+   <listeners>
+    <jms-listener busidref="SOARemoveConferenceFromUserFavsChannel" name="SOARemoveConferenceFromUserFavsListener"/>
+   </listeners>
+   <actions mep="RequestResponse">
+    <action class="actions.RemoveConferenceFromUserFavsAction" name="RemoveConferenceFromUserFavsAction"/>
+   </actions>
+  </service>
+  
+  <service category="ConferenceServices" description="Remove Conference From User Favs From DB Service" name="RemoveConferenceFromUserFavsFromDBService">
+   <listeners>
+    <jms-listener busidref="SOARemoveConferenceFromUserFavsChannel" name="SOARemoveConferenceFromUserFavsFromDBListener"/>
+   </listeners>
+   <actions mep="RequestResponse">
+    <action class="actions.RemoveConferenceFromUserFavsFromDBAction" name="RemoveConferenceFromUserFavsFromDBAction"/>
    </actions>
   </service>
   

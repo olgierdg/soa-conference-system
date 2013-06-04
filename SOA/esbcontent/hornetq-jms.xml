@@ -40,6 +40,14 @@
 		<entry name="/queue/soa_AddConferenceToUserFavs_esb_reply"/>
 	</queue>
 	
+	<queue name="soa_RemoveConferenceFromUserFavs_esb">
+		<entry name="/queue/soa_RemoveConferenceFromUserFavs_esb"/>
+	</queue>
+
+	<queue name="soa_RemoveConferenceFromUserFavs_esb_reply">
+		<entry name="/queue/soa_RemoveConferenceFromUserFavs_esb_reply"/>
+	</queue>
+	
 	<queue name="soa_GetUserFavs_esb">
 		<entry name="/queue/soa_GetUserFavs_esb"/>
 	</queue>
