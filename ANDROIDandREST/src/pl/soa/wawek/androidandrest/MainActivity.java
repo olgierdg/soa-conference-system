@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -104,11 +103,7 @@ public class MainActivity extends Activity implements Receiver {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_main:
-			Toast t = new Toast(this);
-			t.setDuration(Toast.LENGTH_LONG);
-			t.setGravity(Gravity.CENTER, 0, 0);
-			t.setText("Jestes w oknie glownym");
-			t.show();
+			Toast.makeText(MainActivity.this, "Jesteœ w oknie g³ównym", Toast.LENGTH_LONG).show();
 			return true;
 		case R.id.menu_favourite:
 			Intent postService = new Intent(MainActivity.this,

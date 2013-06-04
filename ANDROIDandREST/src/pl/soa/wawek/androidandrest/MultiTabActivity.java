@@ -2,7 +2,7 @@ package pl.soa.wawek.androidandrest;
 
 import java.text.ParseException;
 
-import pl.soa.wawek.rest.AddConferenceToUserFavsService;
+import pl.soa.wawek.rest.AddOrDelConferenceToUserFavsService;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -23,7 +23,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 
 @SuppressWarnings("deprecation")
-public class MultiTabActivity extends TabActivity{
+public class MultiTabActivity extends TabActivity {
 
 	private TabHost tabHost;
 	private TabSpec spec1;
@@ -38,7 +38,6 @@ public class MultiTabActivity extends TabActivity{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.multitab);
-		
 		try {
 			getExtrasAboutConference();
 		} catch (ParseException e) {
@@ -84,7 +83,8 @@ public class MultiTabActivity extends TabActivity{
 		tabHost.addTab(spec3);
 		tabHost.addTab(spec4);
 	}
-	
+
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu){
 		MenuInflater inflater = getMenuInflater();
@@ -110,18 +110,36 @@ public class MultiTabActivity extends TabActivity{
 		user = puser.getUser();
 	}
 	
+	
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
 		switch(item.getItemId()){
 		case R.id.menu_add_fav:
-			Intent service = new Intent(MultiTabActivity.this, AddConferenceToUserFavsService.class);
+			Intent addService = new Intent(MultiTabActivity.this, AddOrDelConferenceToUserFavsService.class);
 			Gson gson = new Gson();
 			model.UserAndConferenceIDs uandcids = new model.UserAndConferenceIDs();
 			uandcids.setUserid(user.getId());
 			uandcids.setConferenceid(conf.getId());
 			String json = gson.toJson(uandcids);
-			service.putExtra("jsonobj", json);
-			startService(service);
+			addService.putExtra("jsonobj", json);
+			addService.putExtra("option", "addtouserfav");
+			addService.putExtra("conf", new model.ParcellableConference(conf));
+			addService.putExtra("size", user.getIdsConferences().size());
+			startService(addService);
+			return true;
+		case R.id.menu_del_fav:
+			Intent delService = new Intent(MultiTabActivity.this, AddOrDelConferenceToUserFavsService.class);
+			Gson gsond = new Gson();
+			model.UserAndConferenceIDs uandcidsd = new model.UserAndConferenceIDs();
+			uandcidsd.setUserid(user.getId());
+			uandcidsd.setConferenceid(conf.getId());
+			String jsond = gsond.toJson(uandcidsd);
+			delService.putExtra("jsonobj", jsond);
+			delService.putExtra("option", "removefromuserfav");
+			delService.putExtra("conf", new model.ParcellableConference(conf));
+			delService.putExtra("size", user.getIdsConferences().size());
+			startService(delService);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -151,4 +169,9 @@ public class MultiTabActivity extends TabActivity{
 
         return ll;
     }
+
+
+	
+
+
 }

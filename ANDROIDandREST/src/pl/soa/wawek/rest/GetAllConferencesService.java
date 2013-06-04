@@ -18,7 +18,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.ResultReceiver;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -64,7 +63,6 @@ public class GetAllConferencesService extends IntentService {
 			e.getStackTrace();
 		}
 		Gson gson = new Gson();
-		Log.i("all", result);
 		java.lang.reflect.Type listType = new TypeToken<List<model.Conference>>(){}.getType();
 		List<model.Conference> listConferences  = gson.fromJson(result, listType);
 		

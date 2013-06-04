@@ -16,7 +16,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.ResultReceiver;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -70,7 +69,6 @@ public class GetUserFavsService extends IntentService {
 		} catch (Exception e) {
 			e.getStackTrace();
 		}
-		Log.i("res", result);
 		Gson gson = new Gson();
 		java.lang.reflect.Type listType = new TypeToken<List<model.Conference>>(){}.getType();
 		List<model.Conference> listConferences  = gson.fromJson(result, listType);

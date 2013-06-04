@@ -2,15 +2,12 @@ package pl.soa.wawek.androidandrest;
 
 import java.util.ArrayList;
 
-import com.google.gson.Gson;
-
 import pl.soa.wawek.androidandrest.MyReceiver.Receiver;
 import pl.soa.wawek.rest.GetAllConferencesService;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +15,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 
 public class Favourites extends Activity implements Receiver{
@@ -109,11 +108,7 @@ public class Favourites extends Activity implements Receiver{
 			startService(getService);
 			return true;
 		case R.id.menu_favourite:
-			Toast t = new Toast(this);
-			t.setDuration(Toast.LENGTH_LONG);
-			t.setGravity(Gravity.CENTER, 0, 0);
-			t.setText("Jestes w ulubionych");
-			t.show();
+			Toast.makeText(Favourites.this, "Jesteœ w ulubionych", Toast.LENGTH_LONG).show();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -134,9 +129,10 @@ public class Favourites extends Activity implements Receiver{
 	@Override
 	public void onReceiveResult(int resultCode, Bundle resultData) {
 		if(resultCode == 1){
-			Intent i = new Intent(Favourites.this, MultiTabActivity.class);
+			Intent i = new Intent(Favourites.this, MainActivity.class);
 			conf = resultData.getParcelableArrayList("conferences");
 			i.putParcelableArrayListExtra("conferences", conf);
+			i.putExtra("puser", puser);
 			startActivity(i);
 		}
 	}

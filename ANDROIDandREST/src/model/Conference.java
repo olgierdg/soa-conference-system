@@ -122,5 +122,16 @@ public class Conference implements Serializable {
 				+ lon;
 	}
 
+
+	@Override
+	public boolean equals(Object o) {
+		if(o instanceof Conference){
+			if(this.name.equals(((Conference) o).name)){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	
 }

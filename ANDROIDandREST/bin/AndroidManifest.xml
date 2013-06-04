@@ -119,7 +119,7 @@
             android:name="pl.soa.wawek.rest.RegisterOrLoginUserService">
         </service>
 		<service
-		    android:name="pl.soa.wawek.rest.AddConferenceToUserFavsService">
+		    android:name="pl.soa.wawek.rest.AddOrDelConferenceToUserFavsService">
 		</service>
         <service
             android:name="pl.soa.wawek.rest.GetUserFavsService">
