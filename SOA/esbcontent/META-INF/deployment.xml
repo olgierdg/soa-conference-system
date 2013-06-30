@@ -3,7 +3,18 @@
 
 	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_LogInUser_Request_esb_reply"</jmsQueue>
 	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_LogInUser_Request_esb"</jmsQueue>
-	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_RegisterUser_Request_esb_reply"</jmsQueue>
-	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_RegisterUser_Request_esb"</jmsQueue>
+	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_RegisterUser_Request_esb1_reply"</jmsQueue>
+	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_RegisterUser_Request_esb1"</jmsQueue>
+	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_GetAllConferences_esb"</jmsQueue>
+	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_GetAllConferences_esb_reply"</jmsQueue>
+	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_AddConference_esb"</jmsQueue>
+	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_AddConference_esb_reply"</jmsQueue>
+	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_AddConferenceToUserFavs_esb"</jmsQueue>
+	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_AddConferenceToUserFavs_esb_reply"</jmsQueue>
+	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_RemoveConferenceFromUserFavs_esb"</jmsQueue>
+	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_RemoveConferenceFromUserFavs_esb_reply"</jmsQueue>
+	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_GetUserFavs_esb"</jmsQueue>
+	<jmsQueue>org.hornetq:module=JMS,type=Queue,name="soa_GetUserFavs_esb_reply"</jmsQueue>
+	
 
 </jbossesb-deployment>
