@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:directive.page contentType="text/html; charset=ISO-8859-1"
+		pageEncoding="ISO-8859-1" session="false" />
+	<jsp:output doctype-root-element="html"
+		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+		omit-xml-declaration="true" />
+	<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>soa-frontend</title>
+	<h:outputStylesheet library="css" name="style.css" />
+</h:head>
+<h:body>
+	<p:layout>
+		<p:layoutUnit position="north" size="110">
+			<h1>Conferences system</h1>
+		</p:layoutUnit>
+		<p:layoutUnit position="west" size="250">
+		</p:layoutUnit>
+		<p:layoutUnit position="east" size="250">
+		</p:layoutUnit>
+		<p:layoutUnit position="center">
+			<p:panel header="Create account">
+				<h:form id="create-account-form">
+					<p:messages globalOnly="true" />
+					<p:growl />
+					<h:panelGrid columns="3">
+						<p:inputText id="id-username" value="#{accountCreator.username}"
+							required="true" requiredMessage="Empty username">
+							<f:validateLength minimum="4" maximum="15" />
+						</p:inputText>
+						<p:watermark for="id-username" value="Username" />
+						<p:message for="id-username" />
+
+						<p:password id="id-password" value="#{accountCreator.password}"
+							required="true" requiredMessage="Empty password" feedback="true"
+							promptLabel="Enter password" weakLabel="Weak password"
+							goodLabel="Good password" strongLabel="Strong password">
+							<f:validateLength minimum="4" maximum="15" />
+						</p:password>
+						<p:watermark for="id-password" value="Password" />
+						<p:message for="id-password" />
+
+						<p:inputText id="id-name" value="#{accountCreator.name}"
+							required="true" requiredMessage="Empty name" />
+						<p:watermark for="id-name" value="Name" />
+						<p:message for="id-name" />
+
+						<p:inputText id="id-surname" value="#{accountCreator.surname}"
+							required="true" requiredMessage="Empty surname" />
+						<p:watermark for="id-surname" value="Surname" />
+						<p:message for="id-surname" />
+
+						<p:inputText id="id-email" value="#{accountCreator.email}"
+							required="true" requiredMessage="Empty email">
+							<f:validateRegex pattern="[^@]+@[^@]+" />
+						</p:inputText>
+						<p:watermark for="id-email" value="E-Mail" />
+						<p:message for="id-email" />
+
+						<h:panelGrid columns="2">
+							<p:commandButton id="submitButton" value="Create"
+								action="#{accountCreator.create}" update="create-account-form" />
+							<p:commandButton id="cancelButton" value="Cancel"
+								action="/pages/authorization/login?faces-redirect=true" immediate="true" />
+						</h:panelGrid>
+					</h:panelGrid>
+				</h:form>
+			</p:panel>
+		</p:layoutUnit>
+	</p:layout>
+</h:body>
+	</html>
+</jsp:root>
