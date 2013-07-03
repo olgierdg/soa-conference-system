@@ -1,45 +1,62 @@
 package userhome;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
+import org.jboss.soa.esb.client.ServiceInvoker;
+import org.jboss.soa.esb.couriers.FaultMessageException;
+import org.jboss.soa.esb.listeners.message.MessageDeliverException;
+import org.jboss.soa.esb.message.Message;
+import org.jboss.soa.esb.message.format.MessageFactory;
+import org.jboss.soa.esb.services.registry.RegistryException;
+
+import utils.Utils;
+
 import model.Conference;
+import model.User;
 
 public class TableAllConferences implements Serializable {
 	  
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = -3164874918085020763L;
-	private List<String> columns = Arrays.asList("name", "city", "date");  
+	private static final long serialVersionUID = -3164874918085020763L; 
     private List<Conference> conferences;
     
-    public TableAllConferences() {
-    	columns = new ArrayList<String>();
-    	columns.add("name");
-    	columns.add("city");
-    	columns.add("date");
-        conferences = new ArrayList<Conference>();  
-        conferences.add(new Conference(1, "ala", "kotek", "piesek", "wiewiórka", "kaczka", "słoń", 5, 10));
-        conferences.add(new Conference(2, "ala", "kotek", "wiewiórka", "piesek", "kaczka", "słoń", 5, 10));
-        conferences.add(new Conference(3, "ala", "kotek", "piesek", "wiewiórka", "kaczka", "słoń", 5, 10));
-        conferences.add(new Conference(4, "ala", "wiewiórka", "kaczka", "słoń", "kotek", "piesek", 5, 10));
-        System.out.println("size " + conferences.size());
+    public TableAllConferences() throws MessageDeliverException, FaultMessageException, RegistryException, ClassNotFoundException, IOException {
+    	conferences = null;
+
+        Message esbMessage = MessageFactory.getInstance().getMessage();
+		ServiceInvoker si = new ServiceInvoker("ConferenceServices",
+				"GetAllConferencesService");
+		Message msg = si.deliverSync(esbMessage, 5000);
+
+		Object obj = msg.getBody().get();
+		conferences = null;
+		
+		if (obj instanceof List<?>) {
+			conferences = (List<Conference>) obj;
+		} else if (obj instanceof byte[]) {
+			conferences = (List<Conference>) Utils.deserialize((byte[]) obj);
+		}
+		
+		if (conferences == null) {
+			FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wrong login or password, try again", "Wrong login or password, try again"));
+		} else {
+			conferences = new ArrayList<Conference>();  
+		}
     }
       
     public List<Conference> getConferences() {  
         return conferences;  
-    }  
-      
-    public List<String> getColumns() {  
-        return columns;  
     }
-
-	public void setColumns(List<String> columns) {
-		this.columns = columns;
-	}
 
 	public void setConferences(List<Conference> conferences) {
 		this.conferences = conferences;

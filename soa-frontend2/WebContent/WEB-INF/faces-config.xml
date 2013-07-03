@@ -57,11 +57,6 @@
   <managed-bean-class>userhome.TableAllConferences</managed-bean-class>
   <managed-bean-scope>request</managed-bean-scope>
   <managed-property>
-   <property-name>columns</property-name>
-   <property-class>java.util.List</property-class>
-   <list-entries/>
-  </managed-property>
-  <managed-property>
    <property-name>conferences</property-name>
    <property-class>java.util.List</property-class>
    <list-entries/>
