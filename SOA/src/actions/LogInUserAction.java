@@ -24,7 +24,7 @@ public class LogInUserAction extends AbstractActionLifecycle {
     	Object obj = message.getBody().get();
     	User request = Serializer.deserializeUser(obj);
         
-        System.out.println("[LogInUserAction] Incoming user nick : " + request.getNick());
+        System.out.println("[LogInUser] Incoming user");
         
         System.setProperty("javax.xml.registry.ConnectionFactoryClass",
 				"org.apache.ws.scout.registry.ConnectionFactoryImpl");
@@ -51,7 +51,8 @@ public class LogInUserAction extends AbstractActionLifecycle {
         	}
         }
         
-        System.out.println("[LogInUserAction] Outgoing response code : " +respUser.getId());
+        System.out.println("[LogInUser] Outgoing response");
+        System.out.println("-------------------------------------------");
         
         message.getBody().add(Serializer.serialize(respUser));
         

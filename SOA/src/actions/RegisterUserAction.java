@@ -6,10 +6,6 @@ import org.jboss.soa.esb.helpers.ConfigTree;
 import org.jboss.soa.esb.message.Message;
 import org.jboss.soa.esb.message.format.MessageFactory;
 
-import util.Serializer;
-
-import model.User;
-
 public class RegisterUserAction extends AbstractActionLifecycle {
     protected ConfigTree  _config;
 
@@ -19,28 +15,25 @@ public class RegisterUserAction extends AbstractActionLifecycle {
 
 	public Message process(Message message) throws Exception {
 
-    	/*
-    	 * Deserialization - for debugging
-    	 */
-		Object obj = message.getBody().get();
-    	User request = Serializer.deserializeUser(obj);        
-        System.out.println("[RegisterUserAction] Incoming user nick : " + request.getNick());
+		Object inc = message.getBody().get();
+      
+        System.out.println("[RegisterUser] Incoming user");
             
         System.setProperty("javax.xml.registry.ConnectionFactoryClass",
 				"org.apache.ws.scout.registry.ConnectionFactoryImpl");
         Message esbMessage = MessageFactory.getInstance().getMessage();
-        esbMessage.getBody().add(Serializer.serialize(request));
+
+        esbMessage.getBody().add(inc);
         
         Message response = new ServiceInvoker("UserServices",
 				"AddUserToDBService").deliverSync(esbMessage, 20000);
         
         Object resp = response.getBody().get();
+                     
+        System.out.println("[RegisterUser] Outgoing response");
+        System.out.println("-------------------------------------------");
         
-        User respUser = (User)Serializer.deserialize((byte[]) resp);
-              
-        System.out.println("[RegisterUserAction] Outgoing response code : " +respUser.getId());
-        
-        message.getBody().add(Serializer.serialize(respUser));
+        message.getBody().add(resp);
         
         return message;
     }

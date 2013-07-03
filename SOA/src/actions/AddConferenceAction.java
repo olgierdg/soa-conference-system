@@ -6,10 +6,6 @@ import org.jboss.soa.esb.helpers.ConfigTree;
 import org.jboss.soa.esb.message.Message;
 import org.jboss.soa.esb.message.format.MessageFactory;
 
-import util.Serializer;
-
-import model.Conference;
-
 public class AddConferenceAction extends AbstractActionLifecycle {
     protected ConfigTree  _config;
 
@@ -19,29 +15,25 @@ public class AddConferenceAction extends AbstractActionLifecycle {
 
 	public Message process(Message message) throws Exception {
 
-		/*
-		 * Deserialization - for debugging
-		 */
-    	Object obj = message.getBody().get();
-    	Conference request = Serializer.deserializeConference(obj);
-        
-        System.out.println("[AddConferenceAction] Incoming conference name : " + request.getName());
+    	Object inc = message.getBody().get();
+  
+        System.out.println("[AddConference] Incoming conference");
             
         System.setProperty("javax.xml.registry.ConnectionFactoryClass",
 				"org.apache.ws.scout.registry.ConnectionFactoryImpl");
         Message esbMessage = MessageFactory.getInstance().getMessage();
-        esbMessage.getBody().add(Serializer.serialize(request));
+
+        esbMessage.getBody().add(inc);
         
         Message response = new ServiceInvoker("ConferenceServices",
 				"AddConferenceToDBService").deliverSync(esbMessage, 20000);
         
         Object resp = response.getBody().get();
-        
-        Conference respUser = (Conference)Serializer.deserialize((byte[]) resp);
               
-        System.out.println("[AddConferenceAction] Outgoing conference id : " +respUser.getId());
+        System.out.println("[AddConference] Outgoing response");
+        System.out.println("-------------------------------------------");
         
-        message.getBody().add(Serializer.serialize(respUser));
+        message.getBody().add(resp);
         
         return message;
     }

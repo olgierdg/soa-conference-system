@@ -24,7 +24,7 @@ public class AddConferenceToDBAction extends AbstractActionLifecycle {
     	Object obj = message.getBody().get();
     	Conference request = Serializer.deserializeConference(obj);
         
-        System.out.println("[AddConferenceToDBAction] Incoming Conference name : " + request.getName());
+        System.out.println("[AddConferenceToDB] Incoming Conference");
         
         /*
          * Check for taken Conference name
@@ -65,7 +65,7 @@ public class AddConferenceToDBAction extends AbstractActionLifecycle {
      
         message.getBody().add(Serializer.serialize(respCon));
         
-        System.out.println("[AddConferenceToDBAction] Outgoing Conference id : " +respCon.getId());
+        System.out.println("[AddConferenceToDB] Outgoing Conference");
         
         return message;
     }

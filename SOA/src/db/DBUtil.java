@@ -11,9 +11,6 @@ import org.hibernate.Session;
 /**
  * This utility class contains common DB accessor methods.
  * DB mutator methods are in their respective Service Action classes.
- * 
- * @author olo-laptop
- *
  */
 public class DBUtil {
 

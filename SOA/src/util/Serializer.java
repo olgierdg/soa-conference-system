@@ -25,9 +25,6 @@ public class Serializer {
         return out.toByteArray();
     }
     
-    /*
-     * Research generics - seems like a good place for dem
-     */
     @SuppressWarnings("unchecked")
 	public static User deserializeUser(Object obj) throws ClassNotFoundException, IOException{
     	

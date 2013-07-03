@@ -26,7 +26,7 @@ public class AddUserToDBAction extends AbstractActionLifecycle {
     	Object obj = message.getBody().get();
     	User request = Serializer.deserializeUser(obj);
         
-        System.out.println("[AddUserToDBAction] Incoming user nick : " + request.getNick());
+        System.out.println("[AddUserToDB] Incoming user");
         
         /*
          * Check for already taken nick
@@ -74,7 +74,7 @@ public class AddUserToDBAction extends AbstractActionLifecycle {
 
         message.getBody().add(Serializer.serialize(respUser));
         
-        System.out.println("[AddUserToDBAction] Outgoing response code : " +respUser.getId());
+        System.out.println("[AddUserToDB] Outgoing response");
         
         return message;
     }

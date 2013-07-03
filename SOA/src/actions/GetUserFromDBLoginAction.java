@@ -26,7 +26,7 @@ public class GetUserFromDBLoginAction extends AbstractActionLifecycle {
     	Object obj = message.getBody().get();
     	User request = Serializer.deserializeUser(obj);
     	
-        System.out.println("[GetUserFromDBLoginAction] Incoming user nick : " + request.getNick());
+        System.out.println("[GetUserFromDBLogin] Incoming user");
            
         User retUser = DBUtil.getUser(request.getNick());
         
@@ -40,7 +40,7 @@ public class GetUserFromDBLoginAction extends AbstractActionLifecycle {
         }
         
         message.getBody().add(Serializer.serialize(retUser));
-        System.out.println("[GetUserFromDBLoginAction] Outgoing User id : "+retUser.getId());
+        System.out.println("[GetUserFromDBLogin] Outgoing response");
         
         return message;
     }

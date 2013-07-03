@@ -30,8 +30,8 @@ public class RemoveConferenceFromUserFavsFromDBAction extends AbstractActionLife
     	Object useridobj = message.getBody().get("userid");
     	Integer userid = Serializer.deserializeInteger(useridobj);
         
-        System.out.println("[RemoveConferenceFromUserFavsFromDBAction] Incoming conference id : " + conferenceid);
-        System.out.println("[RemoveConferenceFromUserFavsFromDBAction] Incoming user id : " + userid);
+        System.out.println("[RemoveConferenceFromUserFavsFromDB] Incoming conference");
+        System.out.println("[RemoveConferenceFromUserFavsFromDB] Incoming user");
         
         List<Conference> retList = null;
         
@@ -70,7 +70,7 @@ public class RemoveConferenceFromUserFavsFromDBAction extends AbstractActionLife
         
         message.getBody().add(Serializer.serialize(retList));
         
-        System.out.println("[RemoveConferenceFromUserFavsFromDBAction] Outgoing Favs list");
+        System.out.println("[RemoveConferenceFromUserFavsFromDB] Outgoing Favs list");
         
         return message;
     }

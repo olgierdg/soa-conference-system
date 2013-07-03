@@ -23,14 +23,14 @@ public class GetAllConferencesFromDBAction extends AbstractActionLifecycle {
 
 	public Message process(Message message) throws Exception {
 
-        System.out.println("[GetAllConferencesFromDBAction] Get all conferences request");
+        System.out.println("[GetAllConferencesFromDB] Incoming request");
            
         List<Conference> list = getConferences();
         if(list == null)
         	list = new ArrayList<Conference>();
         
         message.getBody().add(Serializer.serialize(list));
-        System.out.println("[GetAllConferencesFromDBAction] Get all conferences response");
+        System.out.println("[GetAllConferencesFromDB] Outgoing response");
         
         return message;
     }

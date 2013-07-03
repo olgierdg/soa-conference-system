@@ -30,8 +30,8 @@ public class AddConferenceToUserFavsToDBAction extends AbstractActionLifecycle {
     	Object useridobj = message.getBody().get("userid");
     	Integer userid = Serializer.deserializeInteger(useridobj);
         
-        System.out.println("[AddConferenceToUserFavsToDBAction] Incoming conference id : " + conferenceid);
-        System.out.println("[AddConferenceToUserFavsToDBAction] Incoming user id : " + userid);
+        System.out.println("[AddConferenceToUserFavsToDB] Incoming conference");
+        System.out.println("[AddConferenceToUserFavsToDB] Incoming user");
         
         List<Conference> retList = null;
         
@@ -69,7 +69,7 @@ public class AddConferenceToUserFavsToDBAction extends AbstractActionLifecycle {
         
         message.getBody().add(Serializer.serialize(retList));
         
-        System.out.println("[AddConferenceToUserFavsToDBAction] Outgoing Favs list");
+        System.out.println("[AddConferenceToUserFavsToDB] Outgoing response");
         
         return message;
     }
