@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#pages#authorization#login.xhtml"
+  PATH="/pages/authorization/login.xhtml" SHAPE="256,33,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#pages#authorization#login.xhtml:0"
+   NAME="item" PATH="/pages/authorization/login.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="userhome::#pages#userhome#userhome.xhtml"
+    NAME="output" PATH="/pages/userhome/userhome.xhtml"
+    TARGET="rules:#pages#userhome#userhome.xhtml" TITLE="userhome" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="create-account::#pages#authorization#create-account.xhtml"
+    NAME="output1" PATH="/pages/authorization/create-account.xhtml"
+    SHAPE="305,80,312,80,312,104,16,104,16,24,31,24"
+    TARGET="rules:#pages#authorization#create-account.xhtml"
+    TITLE="create-account" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#authorization#create-account.xhtml"
+  PATH="/pages/authorization/create-account.xhtml" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#pages#authorization#create-account.xhtml:0"
+   NAME="item" PATH="/pages/authorization/create-account.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="login::#pages#authorization#login.xhtml"
+    NAME="output" PATH="/pages/authorization/login.xhtml"
+    TARGET="rules:#pages#authorization#login.xhtml" TITLE="login" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#userhome#userhome.xhtml"
+  PATH="/pages/userhome/userhome.xhtml" SHAPE="480,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#pages#userhome#userhome.xhtml:0" NAME="item"
+   PATH="/pages/userhome/userhome.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="login::#pages#authorization#login.xhtml"
+    NAME="output" PATH="/pages/authorization/login.xhtml"
+    SHAPE="529,48,664,48,664,120,240,120,240,40,255,40"
+    TARGET="rules:#pages#authorization#login.xhtml" TITLE="login" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="conferences-all::#pages#userhome#conferences-all.xhtml"
+    NAME="output1" PATH="/pages/userhome/conferences-all.xhtml"
+    TARGET="rules:#pages#userhome#conferences-all.xhtml"
+    TITLE="conferences-all" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="create-conference::#pages#userhome#create-conference.xhtml"
+    NAME="output2" PATH="/pages/userhome/create-conference.xhtml"
+    TARGET="rules:#pages#userhome#create-conference.xhtml"
+    TITLE="create-conference" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#userhome#conferences-all.xhtml"
+  PATH="/pages/userhome/conferences-all.xhtml" SHAPE="704,33,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#pages#userhome#conferences-all.xhtml:0"
+   NAME="item" PATH="/pages/userhome/conferences-all.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="userhome::#pages#userhome#userhome.xhtml"
+    NAME="output" PATH="/pages/userhome/userhome.xhtml"
+    SHAPE="753,64,760,64,760,248,472,248,472,24,479,24"
+    TARGET="rules:#pages#userhome#userhome.xhtml" TITLE="userhome" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#userhome#create-conference.xhtml"
+  PATH="/pages/userhome/create-conference.xhtml" SHAPE="512,176,50,41" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#pages#userhome#create-conference.xhtml:0"
+   NAME="item" PATH="/pages/userhome/create-conference.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="userhome::#pages#userhome#userhome.xhtml"
+    NAME="output" PATH="/pages/userhome/userhome.xhtml"
+    SHAPE="561,208,632,208,632,224,440,224,440,24,479,24"
+    TARGET="rules:#pages#userhome#userhome.xhtml" TITLE="userhome" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+</PROCESS>

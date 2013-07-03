@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:directive.page contentType="text/html; charset=ISO-8859-1"
+		pageEncoding="ISO-8859-1" session="false" />
+	<jsp:output doctype-root-element="html"
+		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+		omit-xml-declaration="true" />
+	<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:p="http://primefaces.org/ui"
+		xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>soa-frontend</title>
+	<h:outputStylesheet library="css" name="style.css" />
+</h:head>
+<h:body>
+	<p:layout>
+		<p:layoutUnit position="north" size="110">
+			<h1>Conferences system</h1>
+		</p:layoutUnit>
+		<p:layoutUnit position="west" size="250">
+		</p:layoutUnit>
+		<p:layoutUnit position="east" size="250">
+		</p:layoutUnit>
+		<p:layoutUnit position="center">
+			<p:panel header="Create conference">
+				<h:form id="create-conference-form">
+					<p:messages globalOnly="true" />
+					<p:growl />
+					<h:panelGrid columns="3">
+						<p:inputText id="id-name" value="#{conferenceCreator.name}"
+							required="true" requiredMessage="Empty name">
+							<f:validateLength minimum="4" maximum="15" />
+						</p:inputText>
+						<p:watermark for="id-name" value="Name" />
+						<p:message for="id-name" />
+
+						<p:inputText id="id-city" value="#{conferenceCreator.city}"
+							required="true" requiredMessage="Empty city">
+							<f:validateLength minimum="3" maximum="15" />
+						</p:inputText>
+						<p:watermark for="id-city" value="City" />
+						<p:message for="id-city" />
+
+						<p:inputText id="id-date" value="#{conferenceCreator.date}"
+							required="true" requiredMessage="Empty date" />
+						<p:watermark for="id-date" value="Date (dd-mm-yyyy)" />
+						<p:message for="id-date" />
+
+						<p:inputText id="id-description" value="#{conferenceCreator.description}"
+							required="true" requiredMessage="Empty description" />
+						<p:watermark for="id-description" value="Description" />
+						<p:message for="id-description" />
+
+						<p:inputText id="id-speaker" value="#{conferenceCreator.speaker}"
+							required="true" requiredMessage="Empty speaker">
+							<f:validateLength minimum="4" maximum="15" />
+						</p:inputText>
+						<p:watermark for="id-speaker" value="Speaker" />
+						<p:message for="id-speaker" />
+
+						<p:inputText id="id-bio" value="#{conferenceCreator.bio}"
+							required="true" requiredMessage="Empty biographical note">
+							<f:validateLength minimum="4" maximum="15" />
+						</p:inputText>
+						<p:watermark for="id-bio" value="Biographical note" />
+						<p:message for="id-bio" />
+						
+						<p:inputText id="id-lat" value="#{conferenceCreator.lat}"
+							required="true" requiredMessage="Empty latitude">
+							<f:validateDoubleRange minimum="-90.0" maximum="90.0" />
+						</p:inputText>
+						<p:watermark for="id-lat" value="Latitude" />
+						<p:message for="id-lat" />
+						
+						<p:inputText id="id-lon" value="#{conferenceCreator.lon}"
+							required="true" requiredMessage="Empty longitude">
+							<f:validateDoubleRange minimum="-180.0" maximum="180.0" />
+						</p:inputText>
+						<p:watermark for="id-lon" value="Longitude" />
+						<p:message for="id-lon" />
+						
+						<h:panelGrid columns="2">
+							<p:commandButton id="submitButton" value="Create"
+								action="#{conferenceCreator.create}" update="create-conference-form" />
+							<p:commandButton id="cancelButton" value="Cancel"
+								action="/pages/authorization/create-conference?faces-redirect=true" immediate="true" />
+						</h:panelGrid>
+					</h:panelGrid>
+				</h:form>
+			</p:panel>
+		</p:layoutUnit>
+	</p:layout>
+</h:body>
+	</html>
+</jsp:root>

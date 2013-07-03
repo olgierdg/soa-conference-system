@@ -58,13 +58,20 @@ public class AccountCreator {
 									"Registration successful. You can login now."));
 			username = password = name = surname = email = phoneNumber = null;
 			return "/pages/authorization/login?faces-redirect=true";
-		} else {
+		} else if (cr.getId() == -1) {
 			FacesContext.getCurrentInstance()
 					.addMessage(
 							"create-account-form:id-username",
 							new FacesMessage(FacesMessage.SEVERITY_ERROR,
 									"Username already taken",
 									"Username already taken"));
+		} else {
+			FacesContext.getCurrentInstance()
+			.addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							"Failure",
+							"Failure"));
 		}
 		
 		return null;
