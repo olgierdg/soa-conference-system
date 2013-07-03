@@ -20,6 +20,29 @@
 			<h1>Conferences system</h1>
 		</p:layoutUnit>
 		<p:layoutUnit position="west" size="250">
+			<h:form>
+				<p:menu>
+					<p:submenu label="#{userManager.username}" />
+					<p:menuitem value="Home"
+						action="/pages/userhome/userhome?faces-redirect=true" />
+					<p:menuitem value="Logout" action="#{userManager.logout}"
+						ajax="false" />
+					<p:submenu label="Conferences">
+						<p:menuitem value="View all"
+							action="/pages/userhome/conferences-all?faces-redirect=true" />
+						<p:menuitem value="View favourite" url="#" />
+						<p:menuitem value="Add"
+							action="/pages/userhome/create-conference?faces-redirect=true" />
+					</p:submenu>
+					<p:submenu label="Gallery">
+						<p:menuitem value="View your gallery" url="#" />
+						<p:menuitem value="Add photo" url="#" />
+					</p:submenu>
+					<p:submenu label="Account">
+						<p:menuitem value="Settings" url="#" />
+					</p:submenu>
+				</p:menu>
+			</h:form>
 		</p:layoutUnit>
 		<p:layoutUnit position="east" size="250">
 		</p:layoutUnit>
@@ -48,8 +71,9 @@
 						<p:watermark for="id-date" value="Date (dd-mm-yyyy)" />
 						<p:message for="id-date" />
 
-						<p:inputText id="id-description" value="#{conferenceCreator.description}"
-							required="true" requiredMessage="Empty description" />
+						<p:inputText id="id-description"
+							value="#{conferenceCreator.description}" required="true"
+							requiredMessage="Empty description" />
 						<p:watermark for="id-description" value="Description" />
 						<p:message for="id-description" />
 
@@ -66,26 +90,28 @@
 						</p:inputText>
 						<p:watermark for="id-bio" value="Biographical note" />
 						<p:message for="id-bio" />
-						
+
 						<p:inputText id="id-lat" value="#{conferenceCreator.lat}"
 							required="true" requiredMessage="Empty latitude">
 							<f:validateDoubleRange minimum="-90.0" maximum="90.0" />
 						</p:inputText>
 						<p:watermark for="id-lat" value="Latitude" />
 						<p:message for="id-lat" />
-						
+
 						<p:inputText id="id-lon" value="#{conferenceCreator.lon}"
 							required="true" requiredMessage="Empty longitude">
 							<f:validateDoubleRange minimum="-180.0" maximum="180.0" />
 						</p:inputText>
 						<p:watermark for="id-lon" value="Longitude" />
 						<p:message for="id-lon" />
-						
+
 						<h:panelGrid columns="2">
 							<p:commandButton id="submitButton" value="Create"
-								action="#{conferenceCreator.create}" update="create-conference-form" />
+								action="#{conferenceCreator.create}"
+								update="create-conference-form" />
 							<p:commandButton id="cancelButton" value="Cancel"
-								action="/pages/authorization/create-conference?faces-redirect=true" immediate="true" />
+								action="/pages/authorization/create-conference?faces-redirect=true"
+								immediate="true" />
 						</h:panelGrid>
 					</h:panelGrid>
 				</h:form>

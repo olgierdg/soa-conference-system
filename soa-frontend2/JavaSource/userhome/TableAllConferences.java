@@ -49,8 +49,7 @@ public class TableAllConferences implements Serializable {
 		if (conferences == null) {
 			FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wrong login or password, try again", "Wrong login or password, try again"));
-		} else {
-			conferences = new ArrayList<Conference>();  
+			conferences = new ArrayList<Conference>();
 		}
     }
       
