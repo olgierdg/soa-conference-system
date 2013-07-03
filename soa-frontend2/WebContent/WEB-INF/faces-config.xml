@@ -62,6 +62,41 @@
    <list-entries/>
   </managed-property>
  </managed-bean>
+ <managed-bean>
+  <managed-bean-name>conferenceCreator</managed-bean-name>
+  <managed-bean-class>conference.ConferenceCreator</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+  <managed-property>
+   <property-name>name</property-name>
+   <property-class>java.lang.String</property-class>
+   <value/>
+  </managed-property>
+  <managed-property>
+   <property-name>city</property-name>
+   <property-class>java.lang.String</property-class>
+   <value/>
+  </managed-property>
+  <managed-property>
+   <property-name>date</property-name>
+   <property-class>java.lang.String</property-class>
+   <value/>
+  </managed-property>
+  <managed-property>
+   <property-name>description</property-name>
+   <property-class>java.lang.String</property-class>
+   <value/>
+  </managed-property>
+  <managed-property>
+   <property-name>speaker</property-name>
+   <property-class>java.lang.String</property-class>
+   <value/>
+  </managed-property>
+  <managed-property>
+   <property-name>bio</property-name>
+   <property-class>java.lang.String</property-class>
+   <value/>
+  </managed-property>
+ </managed-bean>
  <navigation-rule>
   <from-view-id>/pages/authorization/login.xhtml</from-view-id>
   <navigation-case>
@@ -93,9 +128,20 @@
    <from-outcome>conferences-all</from-outcome>
    <to-view-id>/pages/userhome/conferences-all.xhtml</to-view-id>
   </navigation-case>
+  <navigation-case>
+   <from-outcome>create-conference</from-outcome>
+   <to-view-id>/pages/userhome/create-conference.xhtml</to-view-id>
+  </navigation-case>
  </navigation-rule>
  <navigation-rule>
   <from-view-id>/pages/userhome/conferences-all.xhtml</from-view-id>
+  <navigation-case>
+   <from-outcome>userhome</from-outcome>
+   <to-view-id>/pages/userhome/userhome.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <navigation-rule>
+  <from-view-id>/pages/userhome/create-conference.xhtml</from-view-id>
   <navigation-case>
    <from-outcome>userhome</from-outcome>
    <to-view-id>/pages/userhome/userhome.xhtml</to-view-id>
