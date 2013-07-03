@@ -16,8 +16,6 @@ import org.jboss.soa.esb.services.registry.RegistryException;
 
 import utils.Utils;
 
-import authorization.UserManager;
-
 public class AccountCreator {
 	String username = null;
 	String password = null;
@@ -28,8 +26,6 @@ public class AccountCreator {
 
 	public String create() throws ClassNotFoundException, IOException,
 			MessageDeliverException, FaultMessageException, RegistryException {
-		boolean error = false;
-
 		Message esbMessage = MessageFactory.getInstance().getMessage();
 
 		User user = new User();

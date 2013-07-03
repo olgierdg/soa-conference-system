@@ -59,12 +59,12 @@
   <managed-property>
    <property-name>columns</property-name>
    <property-class>java.util.List</property-class>
-   <value/>
+   <list-entries/>
   </managed-property>
   <managed-property>
    <property-name>conferences</property-name>
    <property-class>java.util.List</property-class>
-   <value/>
+   <list-entries/>
   </managed-property>
  </managed-bean>
  <navigation-rule>

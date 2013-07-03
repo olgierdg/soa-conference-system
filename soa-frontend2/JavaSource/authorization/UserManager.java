@@ -1,28 +1,22 @@
 package authorization;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 import javax.enterprise.context.SessionScoped;
-//import javax.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 
+import model.User;
+
+import org.jboss.soa.esb.client.ServiceInvoker;
+import org.jboss.soa.esb.couriers.FaultMessageException;
 import org.jboss.soa.esb.listeners.message.MessageDeliverException;
 import org.jboss.soa.esb.message.Message;
 import org.jboss.soa.esb.message.format.MessageFactory;
 import org.jboss.soa.esb.services.registry.RegistryException;
-import org.jboss.soa.esb.client.ServiceInvoker;
-import org.jboss.soa.esb.couriers.FaultMessageException;
 
 import utils.Utils;
-
-import model.User;
+//import javax.context.SessionScoped;
 
 //@ManagedBean(name="user")
 @SessionScoped

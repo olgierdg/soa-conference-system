@@ -46,15 +46,20 @@
 		<p:layoutUnit position="east" size="250">
 		</p:layoutUnit>
 		<p:layoutUnit position="center">
-			<p:dataTable id="id-all-conferences" var="conference"
-				value="#{tableAllConferences.conferences}">
-				<p:columns value="#{tableAllConferences.columns}" var="column">
-					<f:facet name="header">  
-                		#{column}  
-            		</f:facet>
-            			#{conference[column]}  
-        		</p:columns>
-			</p:dataTable>
+			<h:form>
+				<p:dataTable var="conference"
+					value="#{tableAllConferences.conferences}">
+					<p:column headerText="Name">
+						<h:outputText value="#{conference.name}" />
+					</p:column>
+					<p:column headerText="City">
+						<h:outputText value="#{conference.city}" />
+					</p:column>
+					<p:column headerText="Date">
+						<h:outputText value="#{conference.date}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
 		</p:layoutUnit>
 	</p:layout>
 </h:body>
