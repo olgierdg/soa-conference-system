@@ -31,7 +31,7 @@
 						<p:menuitem value="View all"
 							action="/pages/userhome/conferences-all?faces-redirect=true" />
 						<p:menuitem value="View favourite" url="#" />
-						<p:menuitem value="Add" 
+						<p:menuitem value="Add"
 							action="/pages/userhome/create-conference?faces-redirect=true" />
 					</p:submenu>
 					<p:submenu label="Gallery">
@@ -47,9 +47,14 @@
 		<p:layoutUnit position="east" size="250">
 		</p:layoutUnit>
 		<p:layoutUnit position="center">
-			<h:form>
+			<h:form id="form">
 				<p:dataTable var="conference"
-					value="#{tableAllConferences.conferences}">
+					value="#{tableAllConferences.conferences}"
+					rowKey="#{conference.id}"
+					selection="#{tableAllConferences.selectedConference}"
+					selectionMode="single">
+					<p:ajax event="rowSelect" update=":form:display"
+						oncomplete="carDialog.show()" />
 					<p:column headerText="Name">
 						<h:outputText value="#{conference.name}" />
 					</p:column>
@@ -59,7 +64,40 @@
 					<p:column headerText="Date">
 						<h:outputText value="#{conference.date}" />
 					</p:column>
+					<p:column headerText="Speaker">
+						<h:outputText value="#{conference.speaker}" />
+					</p:column>
 				</p:dataTable>
+
+				<p:dialog header="Conference Detail" widgetVar="carDialog"
+					resizable="false" width="50%">
+
+					<h:panelGrid id="display" columns="2" cellpadding="4">
+						<h:outputText value="Name:" />
+						<h:outputText value="#{tableAllConferences.selectedConference.name}" />
+						
+						<h:outputText value="City:" />
+						<h:outputText value="#{tableAllConferences.selectedConference.city}" />
+						
+						<h:outputText value="Date:" />
+						<h:outputText value="#{tableAllConferences.selectedConference.date}" />
+						
+						<h:outputText value="Description:" />
+						<h:outputText value="#{tableAllConferences.selectedConference.description}" />
+						
+						<h:outputText value="Speaker:" />
+						<h:outputText value="#{tableAllConferences.selectedConference.speaker}" />
+						
+						<h:outputText value="Bio" />
+						<h:outputText value="#{tableAllConferences.selectedConference.bio}" />
+						
+						<h:outputText value="Lat:" />
+						<h:outputText value="#{tableAllConferences.selectedConference.lat}" />
+					
+						<h:outputText value="Lon:" />
+						<h:outputText value="#{tableAllConferences.selectedConference.lon}" />
+					</h:panelGrid>
+				</p:dialog>
 			</h:form>
 		</p:layoutUnit>
 	</p:layout>

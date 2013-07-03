@@ -28,6 +28,7 @@ public class TableAllConferences implements Serializable {
 	 */
 	private static final long serialVersionUID = -3164874918085020763L; 
     private List<Conference> conferences;
+    private Conference selectedConference;
     
     public TableAllConferences() throws MessageDeliverException, FaultMessageException, RegistryException, ClassNotFoundException, IOException {
     	conferences = null;
@@ -59,5 +60,13 @@ public class TableAllConferences implements Serializable {
 
 	public void setConferences(List<Conference> conferences) {
 		this.conferences = conferences;
-	}   
+	}
+
+	public Conference getSelectedConference() {
+		return selectedConference;
+	}
+
+	public void setSelectedConference(Conference selectedConference) {
+		this.selectedConference = selectedConference;
+	}
 }
