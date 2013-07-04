@@ -59,6 +59,7 @@ public abstract class TableConferences implements Serializable {
 
 	public void setSelectedConference(Conference selectedConference) {
 		this.selectedConference = selectedConference;
+		selectedInFavs = false;
 		
 		UserManager userManager = (UserManager) FacesContext
 				.getCurrentInstance().getExternalContext().getSessionMap()
@@ -66,8 +67,7 @@ public abstract class TableConferences implements Serializable {
 		if(selectedConference == null) {
 			return;
 		}
-		
-		selectedInFavs = false;
+
 		for(Conference conf : userManager.getFavs()) {
 			if(conf.getId() == selectedConference.getId()) {
 				selectedInFavs = true;
@@ -86,7 +86,6 @@ public abstract class TableConferences implements Serializable {
 	}
 	
 	public void favsHandler() {
-		System.out.println("Handler invoked");
 		String serviceName = null;
 		List<Conference> favs = null;
 		
@@ -114,8 +113,6 @@ public abstract class TableConferences implements Serializable {
 			esbMessage.getBody().add("conferenceid", selectedConference.getId());
 			
 			Message msg = si.deliverSync(esbMessage, 5000);
-			
-			System.out.println("deliverint");
 
 			Object obj = msg.getBody().get();
 
