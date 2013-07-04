@@ -1,11 +1,14 @@
 package authorization;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import model.Conference;
 import model.User;
 
 import org.jboss.soa.esb.client.ServiceInvoker;
@@ -25,6 +28,7 @@ public class UserManager {
 	private String username;
 	private String password;
 	private User current;
+	private List<Conference> favs;
 
 	public String login() throws MessageDeliverException,
 			FaultMessageException, RegistryException, ClassNotFoundException, IOException {
@@ -64,6 +68,34 @@ public class UserManager {
 				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wrong login or password, try again", "Wrong login or password, try again"));
 			return (username = password = null);
 		} else {
+			//load favourite conferences
+			try {
+				esbMessage = MessageFactory.getInstance().getMessage();
+				si = new ServiceInvoker("ConferenceServices",
+						"GetAllConferencesService");
+				
+				UserManager userManager = (UserManager) FacesContext
+						.getCurrentInstance().getExternalContext().getSessionMap()
+						.get("userManager");
+				esbMessage.getBody().add(userManager.getCurrent());
+				
+				msg = si.deliverSync(esbMessage, 5000);
+
+				obj = msg.getBody().get();
+
+				if (obj instanceof List<?>) {
+					favs = (List<Conference>) obj;
+				} else if (obj instanceof byte[]) {
+					favs = (List<Conference>) Utils
+							.deserialize((byte[]) obj);
+				}
+			} catch (Exception e) {
+			}
+			
+			if(favs == null) {
+				favs = new ArrayList<Conference>();
+			}
+			
 			return "/pages/userhome/userhome?faces-redirect=true";
 		}
 	}
@@ -93,5 +125,27 @@ public class UserManager {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public User getCurrent() {
+		return current;
+	}
+
+	public void setCurrent(User current) {
+		this.current = current;
+	}
+
+	/**
+	 * @return the favs
+	 */
+	public List<Conference> getFavs() {
+		return favs;
+	}
+
+	/**
+	 * @param favs the favs to set
+	 */
+	public void setFavs(List<Conference> favs) {
+		this.favs = favs;
 	}
 }

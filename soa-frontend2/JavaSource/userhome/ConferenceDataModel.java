@@ -17,8 +17,7 @@ public class ConferenceDataModel  extends ListDataModel<Conference> implements S
 	    }  
 	      
 	    @Override  
-	    public Conference getRowData(String rowKey) {  
-	          
+	    public Conference getRowData(String rowKey) {
 	        List<Conference> conferences = (List<Conference>) getWrappedData();  
 	          
 	        for(Conference conference : conferences) {  

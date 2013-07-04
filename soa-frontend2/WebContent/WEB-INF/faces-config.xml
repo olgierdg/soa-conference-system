@@ -55,11 +55,21 @@
  <managed-bean>
   <managed-bean-name>tableAllConferences</managed-bean-name>
   <managed-bean-class>userhome.TableAllConferences</managed-bean-class>
-  <managed-bean-scope>request</managed-bean-scope>
+  <managed-bean-scope>view</managed-bean-scope>
   <managed-property>
    <property-name>conferences</property-name>
    <property-class>java.util.List</property-class>
    <list-entries/>
+  </managed-property>
+  <managed-property>
+   <property-name>selectedConference</property-name>
+   <property-class>model.Conference</property-class>
+   <value/>
+  </managed-property>
+  <managed-property>
+   <property-name>selectedInFavs</property-name>
+   <property-class>java.lang.Boolean</property-class>
+   <value/>
   </managed-property>
  </managed-bean>
  <managed-bean>
@@ -94,6 +104,26 @@
   <managed-property>
    <property-name>bio</property-name>
    <property-class>java.lang.String</property-class>
+   <value/>
+  </managed-property>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>tableFavsConferences</managed-bean-name>
+  <managed-bean-class>userhome.TableFavsConferences</managed-bean-class>
+  <managed-bean-scope>view</managed-bean-scope>
+  <managed-property>
+   <property-name>conferences</property-name>
+   <property-class>java.util.List</property-class>
+   <list-entries/>
+  </managed-property>
+  <managed-property>
+   <property-name>selectedConference</property-name>
+   <property-class>model.Conference</property-class>
+   <value/>
+  </managed-property>
+  <managed-property>
+   <property-name>selectedInFavs</property-name>
+   <property-class>java.lang.Boolean</property-class>
    <value/>
   </managed-property>
  </managed-bean>

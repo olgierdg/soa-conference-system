@@ -64,10 +64,10 @@ public class ConferenceCreator {
 					.addMessage(
 							null,
 							new FacesMessage(
-									"Conference creation successful."));
+									"Conference has been created."));
 			name = city = date = description = speaker = bio = null;
 			lat = lon = 0.0;
-			return "/pages/userhome/userhome?faces-redirect=true"; //"/pages/authorization/login?faces-redirect=true";
+			return "/pages/userhome/userhome?faces-redirect=true";
 		} else if (cr.getId() == -1) {
 			FacesContext.getCurrentInstance()
 					.addMessage(

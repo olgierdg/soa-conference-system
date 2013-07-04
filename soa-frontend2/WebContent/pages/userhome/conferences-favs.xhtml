@@ -23,10 +23,10 @@
 			<h:form>
 				<p:menu>
 					<p:submenu label="#{userManager.username}">
-						<p:menuitem value="Home"
-							action="/pages/userhome/userhome?faces-redirect=true" />
-						<p:menuitem value="Logout" action="#{userManager.logout}"
-							ajax="false" />
+					<p:menuitem value="Home"
+						action="/pages/userhome/userhome?faces-redirect=true" />
+					<p:menuitem value="Logout" action="#{userManager.logout}"
+						ajax="false" />
 					</p:submenu>
 					<p:submenu label="Conferences">
 						<p:menuitem value="View all"
@@ -44,9 +44,9 @@
 		<p:layoutUnit position="center">
 			<h:form id="form">
 				<p:dataTable var="conference"
-					value="#{tableAllConferences.conferences}"
+					value="#{tableFavsConferences.conferences}"
 					rowKey="#{conference.id}"
-					selection="#{tableAllConferences.selectedConference}"
+					selection="#{tableFavsConferences.selectedConference}"
 					selectionMode="single">
 					<p:ajax event="rowSelect" update=":form:display"
 						oncomplete="carDialog.show()" />
@@ -70,14 +70,14 @@
 					<h:panelGrid id="display" columns="2" cellpadding="4">
 						<h:outputText value="" />
 						<p:selectBooleanButton
-							value="#{tableAllConferences.selectedInFavs}" onLabel="Favourite"
+							value="#{tableFavsConferences.selectedInFavs}" onLabel="Favourite"
 							offLabel="Add to favourite" onIcon="ui-icon-star"
 							offIcon="ui-icon-star" >
-							<p:ajax listener="#{tableAllConferences.favsHandler}" />
+							<p:ajax listener="#{tableFavsConferences.favsHandler}" />
 						</p:selectBooleanButton>
 						<h:outputText value="Name:" />
 						<h:outputText
-							value="#{tableAllConferences.selectedConference.name}" />
+							value="#{tableFavsConferences.selectedConference.name}" />
 						<h:outputText value="City:" />
 						<h:outputText
 							value="#{tableAllConferences.selectedConference.city}" />

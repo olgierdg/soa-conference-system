@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.soa.esb.client.ServiceInvoker;
 import org.jboss.soa.esb.couriers.FaultMessageException;
@@ -16,22 +18,25 @@ import org.jboss.soa.esb.message.Message;
 import org.jboss.soa.esb.message.format.MessageFactory;
 import org.jboss.soa.esb.services.registry.RegistryException;
 
+import authorization.UserManager;
+
 import utils.Utils;
 
 import model.Conference;
 import model.User;
 
-public class TableAllConferences extends TableConferences {
-
+public class TableFavsConferences extends TableConferences {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3164874918085020763L;
-	
-	public TableAllConferences() throws FaultMessageException, MessageDeliverException, ClassNotFoundException, RegistryException, IOException {
+	private static final long serialVersionUID = 4697233992885494990L;
+
+	public TableFavsConferences() throws MessageDeliverException,
+			FaultMessageException, RegistryException, ClassNotFoundException,
+			IOException {
 		super();
 	}
-
+	
 	@Override
 	protected List<Conference> loadConferences() {
 		List<Conference> conferences;
@@ -40,7 +45,13 @@ public class TableAllConferences extends TableConferences {
 		try {
 			Message esbMessage = MessageFactory.getInstance().getMessage();
 			ServiceInvoker si = new ServiceInvoker("ConferenceServices",
-					"GetAllConferencesService");
+					"GetUserFavsService");
+			
+			UserManager userManager = (UserManager) FacesContext
+					.getCurrentInstance().getExternalContext().getSessionMap()
+					.get("userManager");
+			esbMessage.getBody().add(userManager.getCurrent());
+			
 			Message msg = si.deliverSync(esbMessage, 5000);
 
 			Object obj = msg.getBody().get();

@@ -13,7 +13,6 @@ public class Conference implements Serializable {
 	private String bio;
 	private double lat;
 	private double lon;
-
 	
 	public Conference() {
 		id = 0;
